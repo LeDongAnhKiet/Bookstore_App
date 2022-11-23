@@ -1,107 +1,19 @@
+body {
+    background-color: #f8f6f0;
+}
+
 .header{
     font-size: 20px;
 }
-body {
-    background-color: lightblue;
+.navbar {
+    padding: 0.5% 13%;
 }
 
-.top-navbar{
-    width: 100%;
-    height: 7vh;
-    background-color: lightblue;
-    display: flex;
-    align-items: center;
-/*  margin: 0 autox; */
-    justify-content: space-between;
+.navbar-nav > .nav-item{
+  padding-left:10px;
+  padding-right:10px;
 }
 
-.contact-icons{
-    margin-left: 120px;
-}
-
-.contact-icons i{
-    font-size: 30px;
-    margin-left: 10px;
-    cursor: pointer;
-}
-
-.account-icons{
-    margin-right: 120px;
-}
-
-.account-icons i{
-    font-size: 30px;
-    margin-left: 10px;
-    cursor: pointer;
-}
-
-form.d-flex button {
-  float: left;
-  width: 10%;
-  margin: 4px 4px 4px 1px;
-  background: #2196F3;
-  color: white;
-  font-size: 20px;
-  border: 1px solid grey;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-form.d-flex button:hover {
-  background: #0b7dda;
-}
-
-/* Clear floats */
-form.d-flex::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-#btn-login{
-    width: 100px;
-    border: 2px solid #1c1c50;
-    color: #1c1c50;
-    font-weight: bold;
-    border-radius: 5px;
-    height: 5vh;
-    transition: 0.5s ease;
-    cursor: pointer;
-}
-
-#btn-login a{
-    text-decoration: none;
-    color: #1c1c50;
-    transition: 0.5s ease;
-}
-#btn-login a:hover{
-    background-color: #1c1c50;
-    color: white;
-}
-#btn-login:hover{
-    background-color: #1c1c50;
-    color: white;
-}
-#btn-signup{
-    width: 100px;
-    border: 2px solid #1c1c50;
-    color: #1c1c50;
-    font-weight: bold;
-    border-radius: 5px;
-    height: 5vh;
-    transition: 0.5s ease;
-    cursor: pointer;
-}
-#btn-signup a{
-    text-decoration: none;
-    color: #1c1c50;
-    transition: 0.5s ease;
-}
-#btn-signup a:hover{
-    background-color: #1c1c50;
-    color: white;
-}
-#btn-signup:hover{
-    background-color: #1c1c50;
-    color: white;
+a.nav-link{
+    color: black;
 }
