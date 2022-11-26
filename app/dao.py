@@ -1,4 +1,4 @@
-from app.models import Category, Product
+from app.models import Category, Book
 from app import db
 
 
@@ -7,13 +7,17 @@ def load_categories():
 
 
 def load_products(category_id=None, kw=None):
-    query = Product.query
+    query = Book.query
 
     if category_id:
-        query = query.filter(Product.category_id.__eq__(category_id))
+        query = query.filter(Book.category_id.__eq__(category_id))
 
     if kw:
-        query = query.filter(Product.name.contains(kw))
+        query = query.filter(Book.name.contains(kw))
 
     return query.all()
+
+
+def get_product_by_id(product_id):
+    return Book.query.get(product_id)
 

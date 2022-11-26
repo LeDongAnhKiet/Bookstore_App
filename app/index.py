@@ -9,6 +9,12 @@ def index():
     return render_template('index.html', products=products)
 
 
+@app.route('/products/<int:product_id>')
+def details(product_id):
+    p = dao.get_product_by_id(product_id)
+    return render_template('details.html', product=p)
+
+
 @app.context_processor
 def common_attribute():
     categories = dao.load_categories()

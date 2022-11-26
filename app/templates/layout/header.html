@@ -1,0 +1,54 @@
+<div class="header border-bottom">
+    <nav class="navbar navbar-expand-sm navbar-white bg-light text-nowrap">
+        <div class="container-fluid">
+            <a class="navbar-brand mx-5" href="/"><img
+                    src="{{ url_for('static', filename='images/logo1.png') }}" alt="" width="170px"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul class="nav navbar-nav justify-content-end ">
+                <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-user"></i> Sign Up / Login</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-right-to-bracket"></i> Log
+                    out</a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i> Your
+                    Cart</a></li>
+
+            </ul>
+        </div>
+    </nav>
+    <nav class="navbar navbar-expand-sm navbar-white bg-light text-nowrap">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="mynavbar">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sách</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                           data-bs-toggle="dropdown">Danh Mục</a>
+                        <ul class="dropdown-menu">
+                            {% for cate in categories %}
+                            <li><a class="dropdown-item" href="/?category_id={{ cate.id }}">{{ cate.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Hỗ trợ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Về chúng tôi</a>
+
+                </ul>
+                <form class="d-flex justify-content-end rounded" action="/">
+                    <input class="form-control me-2 rounded border-dark" name="keyword" type="text" placeholder="Nhập từ khóa...">
+                    <button class="btn border-dark" type="submit"><i class="fa-solid fa-magnifying-glass ms-1"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+</div>

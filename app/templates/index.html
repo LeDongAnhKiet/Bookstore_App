@@ -1,168 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Home{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet"/>
+{% extends 'layout/base.html' %}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
-</head>
-<body class="bg-white">
-<div class="header border-bottom">
-    <nav class="navbar navbar-expand-sm navbar-white bg-light text-nowrap">
-        <div class="container-fluid">
-            <a class="navbar-brand mx-5"><img
-                    src="{{ url_for('static', filename='images/logo1.png') }}" alt="" width="170px"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <ul class="nav navbar-nav justify-content-end ">
-                <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-user"></i> Sign Up / Login</a>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-right-to-bracket"></i> Log
-                    out</a></li>
-                <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i> Your
-                    Cart</a></li>
+{% block content %}
 
-            </ul>
-        </div>
-    </nav>
-    <nav class="navbar navbar-expand-sm navbar-white bg-light text-nowrap">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="mynavbar">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0)">Trang chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Sách</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button"
-                           data-bs-toggle="dropdown">Danh Mục</a>
-                        <ul class="dropdown-menu">
-                            {% for cate in categories %}
-                            <li><a class="dropdown-item" href="#">{{ cate.name }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Hỗ trợ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Về chúng tôi</a>
-
-                </ul>
-                <form class="d-flex justify-content-end rounded" action="/">
-                    <input class="form-control me-2 rounded border-dark" name="keyword" type="text" placeholder="Nhập từ khóa...">
-                    <button class="btn border-dark" type="submit"><i class="fa-solid fa-magnifying-glass ms-1"></i>
-                    </button>
-                </form>
-            </div>
-        </div>
-    </nav>
-</div>
 <div class="container">
+        {% if products %}
     <div class="row">
+         {% for p in products %}
         <div class="col-md-3 col-sm-12" style="padding:1rem;">
             <div class="card">
+                <img class="card-img-top" src="{{ p.image }}" alt="{{ p.name }}">
                 <div class="card-body">
-                    <h4 class="card-title"></h4>
-                    <p class="card-text"> VNĐ</p>
-                    <a href="/products/" class="btn btn-primary">Xem chi tiết</a>
+                    <h4 class="card-title">{{ p.name }}</h4>
+                    <p class="card-text">{{ "{:,.1f}".format(p.price) }} VNĐ</p>
+                    <a href="/products/{{p.id}}" class="btn btn-primary">Xem chi tiết</a>
                     <a href="#" class="btn btn-danger">Đặt hàng</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-sm-12" style="padding:1rem;">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title"></h4>
-                    <p class="card-text"> VNĐ</p>
-                    <a href="/products/" class="btn btn-primary">Xem chi tiết</a>
-                    <a href="#" class="btn btn-danger">Đặt hàng</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-12" style="padding:1rem;">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title"></h4>
-                    <p class="card-text"> VNĐ</p>
-                    <a href="/products/" class="btn btn-primary">Xem chi tiết</a>
-                    <a href="#" class="btn btn-danger">Đặt hàng</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-12" style="padding:1rem;">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title"></h4>
-                    <p class="card-text"> VNĐ</p>
-                    <a href="/products/" class="btn btn-primary">Xem chi tiết</a>
-                    <a href="#" class="btn btn-danger">Đặt hàng</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-12" style="padding:1rem;">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title"></h4>
-                    <p class="card-text"> VNĐ</p>
-                    <a href="/products/" class="btn btn-primary">Xem chi tiết</a>
-                    <a href="#" class="btn btn-danger">Đặt hàng</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-12" style="padding:1rem;">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title"></h4>
-                    <p class="card-text"> VNĐ</p>
-                    <a href="/products/" class="btn btn-primary">Xem chi tiết</a>
-                    <a href="#" class="btn btn-danger">Đặt hàng</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-12" style="padding:1rem;">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title"></h4>
-                    <p class="card-text"> VNĐ</p>
-                    <a href="/products/" class="btn btn-primary">Xem chi tiết</a>
-                    <a href="#" class="btn btn-danger">Đặt hàng</a>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
+    {% else %}
+    <p class="text-danger">Không có sản phẩm nào!</p>
 </div>
-
-<div class="text-center text-lg-start bg-light text-muted">
-    <div class="container text-center text-md-start mt-5 border-top">
-        <div class="row mt-3">
-            <div class="col-5 mx-auto mb-4">
-                <h6 class="text-uppercase fw-bold mb-4">Thông tin</h6>
-                <p><i class="fa-brands fa-github pe-2"></i> https://github.com/hoangduong0112/Bookstore_App</p>
-            </div>
-            <div class="col-5 mb-md-0 mb-4">
-                <h6 class="text-uppercase fw-bold mb-4">Sinh viên</h6>
-                <p>
-                    <i class="fa-solid fa-circle-user pe-2"></i>
-                    Hoàng Dương
-                </p>
-                <p>
-                    <i class="fa-solid fa-circle-user pe-2"></i>
-                    Hoàng Dương
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-</body>
-</html>
+    {% endif %}
+{% endblock %}
