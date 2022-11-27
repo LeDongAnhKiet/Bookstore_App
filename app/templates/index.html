@@ -2,11 +2,11 @@
 
 {% block content %}
 
-<div class="container">
+
         {% if products %}
-    <div class="row">
+    <div class="row row-eq-height">
          {% for p in products %}
-        <div class="col-md-3 col-sm-12" style="padding:1rem;">
+        <div class="col-md-3 col-sm-12 " style="padding:1rem;">
             <div class="card">
                 <img class="card-img-top" src="{{ p.image }}" alt="{{ p.name }}">
                 <div class="card-body">
@@ -21,6 +21,5 @@
     </div>
     {% else %}
     <p class="text-danger">Không có sản phẩm nào!</p>
-</div>
     {% endif %}
 {% endblock %}

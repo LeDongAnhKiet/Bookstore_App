@@ -21,7 +21,7 @@ class BaseModel(db.Model):
 class Category(BaseModel):
     __tablename__ = 'category'
 
-    name = Column(String(50), nullable=False)
+    name = Column(String(50), nullable=False, unique=True)
     Books = relationship('Book', backref='category', lazy=True)
 
     def __str__(self):
@@ -107,7 +107,7 @@ if __name__ == '__main__':
         db.session.commit()
 
         a1 = Author(name='Robert Cecil Martin')
-        b1 = Book(name='Clean code', price=299000, image='https://cdn0.fahasa.com/media/catalog/product/3/9/393129.jpg',
+        b1 = Book(name='Clean Code', price=299000, image='https://cdn0.fahasa.com/media/catalog/product/3/9/393129.jpg',
                   quantity=200, category_id=3)
 
         a2 = Author(name='Alice Schroeder')

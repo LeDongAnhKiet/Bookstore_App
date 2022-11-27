@@ -7,10 +7,17 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <ul class="nav navbar-nav justify-content-end ">
-                <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-user"></i> Sign Up / Login</a>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-right-to-bracket"></i> Log
+                  {% if current_user.is_authenticated %}
+                <li class="nav-item"><a class="nav-link"><i class="fa-solid fa-user"></i> Hello, {{ current_user.name }}!
+                </a></li>
+                <li class="nav-item"><a class="nav-link" href="/logout"><i class="fa-solid fa-right-to-bracket"></i> Log
                     out</a></li>
+                 {% else %}
+                <li class="nav-item"><a class="nav-link" href="/login"><i class="fa-solid fa-user"></i> Đăng nhập</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="/register"><i class="fa-solid fa-user"></i> Đăng ký</a>
+                </li>
+                {% endif %}
                 <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i> Your
                     Cart</a></li>
 
@@ -23,9 +30,6 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="/">Trang chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Sách</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button"
