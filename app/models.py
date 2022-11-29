@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, Enum, DateTime
+from sqlalchemy import Text, Column, Integer, String, Float, ForeignKey, Enum, DateTime
 from sqlalchemy.orm import relationship, backref
 from app import db, app
 from flask_login import UserMixin
@@ -38,6 +38,7 @@ class Book(BaseModel):
 
     name = Column(String(50), nullable=False)
     price = Column(Float, default=0)
+    description = Column(Text)
     image = Column(String(130))
     quantity = Column(Integer)
     category_id = Column(Integer, ForeignKey(Category.id), nullable=False)
