@@ -7,7 +7,7 @@ from flask_login import logout_user, current_user
 from wtforms import TextAreaField
 from wtforms.widgets import TextArea
 
-admin = Admin(app=app, name='Quản trị bán hàng', template_mode='bootstrap4')
+admin = Admin(app=app, name='Quản lý nhà sách', template_mode='bootstrap4')
 
 
 class AuthenticatedModeView(ModelView):
