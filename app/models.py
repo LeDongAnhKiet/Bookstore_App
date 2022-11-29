@@ -59,7 +59,6 @@ class User(BaseModel, UserMixin):
     name = Column(String(50), nullable=False)
     username = Column(String(50), nullable=False)
     password = Column(String(50), nullable=False)
-    avatar = Column(String(100), nullable=False)
     user_role = Column(Enum(UserRole), default=UserRole.Customer)
     order = relationship('Order', backref='user', lazy=True)
 
@@ -92,45 +91,44 @@ class OrderDetails(BaseModel):
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()
-        c1 = Category(name='Sách giáo khoa')
-        c2 = Category(name='Ngoại ngữ')
-        c3 = Category(name='Khoa học')
-        c4 = Category(name='Văn học - tiểu thuyết')
+    #     db.create_all()
+    #     c1 = Category(name='Sách giáo khoa')
+    #     c2 = Category(name='Ngoại ngữ')
+    #     c3 = Category(name='Khoa học')
+    #     c4 = Category(name='Văn học - tiểu thuyết')
+    #
+    #     db.session.add_all([c1, c2, c3, c4])
+    #     db.session.commit()
+    #
+    #     password = str(hashlib.md5('123456'.encode('utf-8')).hexdigest())
+    #     u = User(name='Duong', username='admin', password=password, user_role=UserRole.ADMIN)
+    #     db.session.add(u)
+    #     db.session.commit()
 
-        db.session.add_all([c1, c2, c3, c4])
-        db.session.commit()
-
-        password = str(hashlib.md5('123456'.encode('utf-8')).hexdigest())
-        u = User(name='Duong', username='admin', password=password, user_role=UserRole.ADMIN,
-                 avatar='https://res.cloudinary.com/dxxwcby8l/image/upload/v1646729569/fi9v6vdljyfmiltegh7k.jpg')
-        db.session.add(u)
-        db.session.commit()
-
-        a1 = Author(name='Robert Cecil Martin')
+        # a1 = Author(name='Robert Cecil Martin')
         b1 = Book(name='Clean Code', price=299000, image='https://cdn0.fahasa.com/media/catalog/product/3/9/393129.jpg',
                   quantity=200, category_id=3)
 
-        a2 = Author(name='Alice Schroeder')
+        # a2 = Author(name='Alice Schroeder')
         b2 = Book(name='Cuộc Đời Và Sự Nghiệp Của Warren Buffett', price=529000, image='https://cdn0.fahasa.com/media/catalog/product/z/2/z2347757265330_74b3b3541a95b12454cbde947ccc635e.jpg',
                   quantity=300, category_id=4)
-
-        a3 = Author(name='Marry Buffet')
-        a4 = Author(name='Sean Seah')
+        #
+        # a3 = Author(name='Marry Buffet')
+        # a4 = Author(name='Sean Seah')
         b3 = Book(name='7 Phương Pháp Đầu Tư Warren Buffet', price=143000, image='https://cdn0.fahasa.com/media/catalog/product/8/9/8936066694131.jpg',
                   quantity=300, category_id=4)
-
-        a5 = Author(name='Mai Lan Hương')
-        a6 = Author(name='Hà Thanh Uyên')
+        #
+        # a5 = Author(name='Mai Lan Hương')
+        # a6 = Author(name='Hà Thanh Uyên')
         b4 = Book(name='Giải Thích Ngữ Pháp Tiếng Anh ', price=139000, image='https://cdn0.fahasa.com/media/catalog/product/z/3/z3097453775918_7ea22457f168a4de92d0ba8178a2257b.jpg'
                   , quantity=300, category_id=2)
 
-        a7 = Author(name='Bộ Giáo Dục Và Đào Tạo')
+        # a7 = Author(name='Bộ Giáo Dục Và Đào Tạo')
         b5 = Book(name='Sách Giáo Khoa Bộ Lớp 12', price=180000, image='https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015422-1.jpg'
                   , quantity=300, category_id=1)
-
-        db.session.add_all([a1, a2, a3, a4, a5, a6, a7])
-        db.session.commit()
+        #
+        # db.session.add_all([a1, a2, a3, a4, a5, a6, a7])
+        # db.session.commit()
 
         db.session.add_all([b1, b2, b3, b4, b5])
         db.session.commit()

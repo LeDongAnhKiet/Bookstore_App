@@ -58,23 +58,24 @@ def register():
     if request.method == 'POST':
         password = request.form['password']
         confirm = request.form['confirm']
-        if password.__eq__(confirm):
-            avatar = ''
-            if request.files:
-                res = cloudinary.uploader.upload(request.files['avatar'])
-                print(res)
-                avatar = res['secure_url']
-
-            try:
-                dao.register(name=request.form['name'],
-                             password=password,
-                             username=request.form['username'], avatar=avatar)
-
-                return redirect('/login')
-            except:
-                err_msg = 'Đã có lỗi xảy ra! Vui lòng quay lại sau!'
+        username = request.form['username']
+        if not " " in username and not " " in password:
+            if password.__eq__(confirm):
+                try:
+                    m = dao.register(name=request.form['name'],
+                                     password=password,
+                                     username=username)
+                    if m:
+                        err_msg = 'Đăng ký thành công!!!'
+                        return render_template('login.html', err_msg=err_msg)
+                    else:
+                        err_msg = 'Username đã tồn tại!'
+                except:
+                    err_msg = 'Đã có lỗi xảy ra!'
+            else:
+                err_msg = 'Mật khẩu không khớp!'
         else:
-            err_msg = 'Mật khẩu KHÔNG khớp!'
+            err_msg = 'Username và Password không được chứa khoảng trắng!'
 
     return render_template('register.html', err_msg=err_msg)
 
