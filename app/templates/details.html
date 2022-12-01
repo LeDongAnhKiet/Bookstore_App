@@ -17,12 +17,14 @@
                     Thể loại: {{ product.category.name }}
                 </div>
                 <div class="text-bold">
-                    <p class="text-color mb-2">Tác giả: </p>
+<!--                    {% for i in product.creators.typeofcreator %}-->
+                    <p class="text-color mb-2">tác giả: </p>
                     <ul>
-                        {% for i in product.authors %}
-                        <li>{{ i.name }}</li>
+                        {% for j in product.creators %}
+                        <li>{{ j.name }}</li>
                         {% endfor %}
                     </ul>
+<!--                                    {% endfor %}-->
                 </div>
                  <div class="text-bold">
                     <p class="text-color mb-2">Tình trạng:

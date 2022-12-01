@@ -19,6 +19,7 @@ def details(product_id):
 
 
 @app.route('/login-admin', methods=['post'])
+@login_required
 def login_admin():
     username = request.form['username']
     password = request.form['password']
@@ -33,14 +34,16 @@ def login_admin():
 @app.route('/login', methods=['get', 'post'])
 @annonynous_user
 def login_my_user():
-    if request.method == 'POST':
+    if request.method.__eq__('POST'):
         username = request.form['username']
         password = request.form['password']
 
         user = dao.auth_user(username=username, password=password)
         if user:
             login_user(user=user)
-            return redirect('/')
+
+            n = request.args.get('next')
+            return redirect(n if n else '/')
 
     return render_template('login.html')
 

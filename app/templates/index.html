@@ -6,8 +6,8 @@
 {% if products %}
 <div class="row row-top row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
     {% for p in products %}
-    <div class="col hp">
-        <div class="card h-100 shadow-sm">
+    <div class="col">
+        <div class="card h-100 shadow-sm mx-3 my-2">
             <a href="/products/{{p.id}}" class="mt-2">
                 <img src="{{ p.image }}" class="card-img-top" alt="{{ p.name }}"/></a>
             <div class="card-body">
