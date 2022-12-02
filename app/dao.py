@@ -1,6 +1,7 @@
 from flask_login import current_user
 from app.models import Category, Book, User, TypeofCreator, Order, OrderDetails
 from app import db
+from sqlalchemy import func
 import hashlib
 
 
@@ -76,3 +77,45 @@ def add_receipt(cart):
 
 def get_user_by_id(user_id):
     return User.query.get(user_id)
+
+
+def add_order(cart):
+    if cart:
+        r = Order(user=current_user)
+        db.session.add(r)
+        for c in cart.values():
+            d = OrderDetails(quantity=c['quantity'], price=c['price'],
+                             order=r, product_id=c['id'])
+            db.session.add(d)
+        try:
+            db.session.commit()
+        except:
+            return False
+        else:
+            return True
+
+
+def count_book_by_cate():
+    return db.session.query(Category.id, Category.name, func.count(Order.id)) \
+        .join(Order, Order.category_id.__eq__(Category.id), isouter=True) \
+        .group_by(Category.id).order_by(Category.name).all()
+
+
+def stats_revenue_by_book(kw=None, from_date=None, to_date=None):
+    query = db.session.query(Order.id, Order.name, func.sum(OrderDetails.quantity * OrderDetails.product_id)) \
+                .join(OrderDetails, OrderDetails.product_id.__eq__(Order.id)) \
+                .join(Order, OrderDetails.receipt_id.__eq__(Order.id))
+    if kw:
+        query = query.filter(Order.name.contains(kw))
+    if from_date:
+        query = query.filter(Order.created_date.__ge__(from_date))
+    if to_date:
+        query = query.filter(Order.created_date.__le__(to_date))
+    return query.group_by(Order.id).all()
+
+
+if __name__ == '__main__':
+    from app import app
+
+    with app.app_context():
+        print(count_book_by_cate())
