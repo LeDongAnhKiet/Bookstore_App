@@ -1,5 +1,5 @@
-from flask import render_template, request, redirect
-from app import app, dao, admin, login
+from flask import render_template, request, redirect, session, jsonify
+from app import app, dao, admin, login, utils
 from flask_login import login_user, logout_user, login_required
 from app.decorator import annonynous_user
 import cloudinary.uploader
@@ -7,19 +7,18 @@ import cloudinary.uploader
 
 @app.route("/")
 def index():
-    books = dao.load_books(category_id=request.args.get('category_id'),
-                           kw=request.args.get('keyword'))
-    return render_template('index.html', books=books)
+    products = dao.load_products(category_id=request.args.get('category_id'),
+                                 kw=request.args.get('keyword'))
+    return render_template('index.html', products=products)
 
 
-@app.route('/books/<int:book_id>')
-def details(book_id):
-    p = dao.get_book_by_id(book_id)
-    return render_template('details.html', book=p)
+@app.route('/products/<int:product_id>')
+def details(product_id):
+    p = dao.get_product_by_id(product_id)
+    return render_template('details.html', product=p)
 
 
 @app.route('/login-admin', methods=['post'])
-@login_required
 def login_admin():
     username = request.form['username']
     password = request.form['password']
@@ -40,6 +39,8 @@ def login_my_user():
 
         user = dao.auth_user(username=username, password=password)
         if user:
+            login_user(user=user)
+
             n = request.args.get('next')
             return redirect(n if n else '/')
 
@@ -62,17 +63,12 @@ def register():
         username = request.form['username']
         if not " " in username and not " " in password:
             if password.__eq__(confirm):
-                avatar = ''
-                if request.files:
-                    res = cloudinary.uploader.upload(request.files['avatar'])
-                    print(res)
-                    avatar = res['secure_url']
                 try:
-                    m = dao.register(name=request.form['name'], password=password,
-                                     username=request.form['username'], avatar=avatar)
+                    m = dao.register(name=request.form['name'],
+                                     password=password,
+                                     username=username)
                     if m:
-                        err_msg = 'Đăng ký thành công!!!'
-                        return render_template('login.html', err_msg=err_msg)
+                        return redirect('/login')
                     else:
                         err_msg = 'Username đã tồn tại!'
                 except:
@@ -85,7 +81,11 @@ def register():
     return render_template('register.html', err_msg=err_msg)
 
 
-<<<<<<< HEAD
+@login.user_loader
+def load_user(user_id):
+    return dao.get_user_by_id(user_id)
+
+
 @app.route('/cart')
 def cart():
     return render_template('cart.html')
@@ -117,26 +117,26 @@ def add_to_cart():
     return jsonify(utils.cart_stats(cart))
 
 
-@app.route('/api/cart/<book_id>', methods=['put'])
-def update_cart(book_id):
+@app.route('/api/cart/<product_id>', methods=['put'])
+def update_cart(product_id):
     key = app.config['CART_KEY']
 
     cart = session.get(key)
-    if cart and book_id in cart:
-        cart[book_id]['quantity'] = int(request.json['quantity'])
+    if cart and product_id in cart:
+        cart[product_id]['quantity'] = int(request.json['quantity'])
 
     session[key] = cart
 
     return jsonify(utils.cart_stats(cart))
 
 
-@app.route('/api/cart/<book_id>', methods=['delete'])
-def delete_cart(book_id):
+@app.route('/api/cart/<product_id>', methods=['delete'])
+def delete_cart(product_id):
     key = app.config['CART_KEY']
 
     cart = session.get(key)
-    if cart and book_id in cart:
-        del cart[book_id]
+    if cart and product_id in cart:
+        del cart[product_id]
 
     session[key] = cart
 
@@ -156,8 +156,6 @@ def pay():
     return jsonify({'status': 200})
 
 
-=======
->>>>>>> parent of a2d0e46 (xu ly cart)
 @login.user_loader
 def load_user(user_id):
     return dao.get_user_by_id(user_id)
@@ -167,7 +165,8 @@ def load_user(user_id):
 def common_attribute():
     categories = dao.load_categories()
     return {
-        'categories': categories
+        'categories': categories,
+        'cart': utils.cart_stats(session.get(app.config['CART_KEY']))
     }
 
 

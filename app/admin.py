@@ -1,11 +1,13 @@
-from app import db, app, dao
+from app import db, app
 from app.models import Category, Book, UserRole
-from flask_admin import Admin, BaseView, expose, AdminIndexView
+from flask_admin import Admin, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
-from flask import redirect, request
+from flask import redirect
 from flask_login import logout_user, current_user
 from wtforms import TextAreaField
 from wtforms.widgets import TextArea
+
+admin = Admin(app=app, name='Quản lý nhà sách', template_mode='bootstrap4')
 
 
 class AuthenticatedModeView(ModelView):
@@ -53,10 +55,7 @@ class BookView(ModelView):
 class StatsView(AuthenticatedView):
     @expose('/')
     def index(self):
-        stats = dao.stats_revenue_by_book(kw=request.args.get('kw'),
-                                          from_date=request.args.get('from_date'),
-                                          to_date=request.args.get('to_date'))
-        return self.render('admin/stats.html', stats=stats)
+        return self.render('admin/stats.html')
 
 
 class LogoutView(AuthenticatedView):
@@ -66,14 +65,6 @@ class LogoutView(AuthenticatedView):
         return redirect('/admin')
 
 
-class AdminView(AdminIndexView):
-    @expose('/')
-    def index(self):
-        stats = dao.count_book_by_cate()
-        return self.render('admin/index.html', stats=stats)
-
-
-admin = Admin(app=app, name='Quản lý nhà sách', template_mode='bootstrap4', index_view=AdminView())
 admin.add_view(AuthenticatedModeView(Category, db.session, name='Danh mục'))
 admin.add_view(BookView(Book, db.session, name='Sách'))
 admin.add_view(StatsView(name='Thống kê - báo cáo'))
