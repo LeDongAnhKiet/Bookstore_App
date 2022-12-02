@@ -1,5 +1,5 @@
-from flask import render_template, request, redirect, session, jsonify
-from app import app, dao, admin, login, utils
+from flask import render_template, request, redirect
+from app import app, dao, admin, login
 from flask_login import login_user, logout_user, login_required
 from app.decorator import annonynous_user
 import cloudinary.uploader
@@ -19,6 +19,7 @@ def details(book_id):
 
 
 @app.route('/login-admin', methods=['post'])
+@login_required
 def login_admin():
     username = request.form['username']
     password = request.form['password']
@@ -70,7 +71,8 @@ def register():
                     m = dao.register(name=request.form['name'], password=password,
                                      username=request.form['username'], avatar=avatar)
                     if m:
-                        return redirect('/login')
+                        err_msg = 'Đăng ký thành công!!!'
+                        return render_template('login.html', err_msg=err_msg)
                     else:
                         err_msg = 'Username đã tồn tại!'
                 except:
@@ -83,6 +85,7 @@ def register():
     return render_template('register.html', err_msg=err_msg)
 
 
+<<<<<<< HEAD
 @app.route('/cart')
 def cart():
     return render_template('cart.html')
@@ -153,6 +156,8 @@ def pay():
     return jsonify({'status': 200})
 
 
+=======
+>>>>>>> parent of a2d0e46 (xu ly cart)
 @login.user_loader
 def load_user(user_id):
     return dao.get_user_by_id(user_id)
@@ -162,8 +167,7 @@ def load_user(user_id):
 def common_attribute():
     categories = dao.load_categories()
     return {
-        'categories': categories,
-        'cart': utils.cart_stats(session.get(app.config['CART_KEY']))
+        'categories': categories
     }
 
 

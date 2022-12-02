@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 from flask_login import current_user
 from app.models import Category, Book, User, TypeofCreator, Order, OrderDetails
+=======
+from app.models import Category, Book, User
+>>>>>>> parent of a2d0e46 (xu ly cart)
 from app import db
 from sqlalchemy import func
 import hashlib
@@ -8,9 +12,12 @@ import hashlib
 def load_categories():
     return Category.query.all()
 
+<<<<<<< HEAD
 
 def load_typeofcreator(type_id):
     return TypeofCreator.query.get(type_id)
+=======
+>>>>>>> parent of a2d0e46 (xu ly cart)
 
 
 def load_books(category_id=None, kw=None):
@@ -29,6 +36,7 @@ def get_book_by_id(book_id):
     return Book.query.get(book_id)
 
 
+<<<<<<< HEAD
 def get_typeofcreator(book_id):
     p = get_book_by_id(book_id)
     type_list = []
@@ -39,6 +47,8 @@ def get_typeofcreator(book_id):
     return type_list
 
 
+=======
+>>>>>>> parent of a2d0e46 (xu ly cart)
 def auth_user(username, password):
     password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
 
@@ -56,6 +66,7 @@ def register(name, username, password, avatar):
     else:
         return False
 
+<<<<<<< HEAD
 
 def add_receipt(cart):
     if cart:
@@ -74,6 +85,8 @@ def add_receipt(cart):
         else:
             return True
 
+=======
+>>>>>>> parent of a2d0e46 (xu ly cart)
 
 def get_user_by_id(user_id):
     return User.query.get(user_id)

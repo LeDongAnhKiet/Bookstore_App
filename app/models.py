@@ -86,7 +86,11 @@ class Order(BaseModel):
 
     date = Column(DateTime, default=datetime.now())
     user_id = Column(Integer, ForeignKey(User.id), nullable=False)
+<<<<<<< HEAD
     OrderDetail = relationship('OrderDetails', backref='order', lazy=True)
+=======
+    OrderDetail_id = relationship('OrderDetails', backref='receipt', lazy=True)
+>>>>>>> parent of a2d0e46 (xu ly cart)
 
     def __str__(self):
         return self.name
