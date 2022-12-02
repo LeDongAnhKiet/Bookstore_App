@@ -4,30 +4,66 @@
 <h1 class="text-center text-success">GIỎ HÀNG</h1>
 
 {% if 'cart' in session and session['cart'] %}
+<section class="h-100 h-custom">
+    <div class="container h-100 py-5">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col">
 
-<table class="table">
-    <tr>
-        <th>Mã sản phẩm</th>
-        <th>Tên sản phẩm</th>
-        <th>Đơn giá</th>
-        <th>Số lượng</th>
-        <th></th>
-    </tr>
-    {% for c in session['cart'].values() %}
-    <tr id="cart{{ c.id }}">
-        <td>{{ c.id }}</td>
-        <td>{{ c.name }}</td>
-        <td>{{ "{:,.0f}".format(c.price) }} VNĐ</td>
-        <td>
-            <input type="number" min="0" onblur="updateCart({{ c.id }}, this)" value="{{ c.quantity }}"
-                   class="form-control"/>
-        </td>
-        <td>
-            <input type="button" value="Xóa" onclick="deleteCart({{ c.id }})" class="btn btn-danger"/>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="h5">Sản phẩm</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Giá tiền</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for c in session['cart'].values() %}
+                        <tr>
+                        <td scope="row">
+                            <div class="d-flex align-items-center">
+                                <p>1.</p>
+                                <div class="flex-column ms-4">
+                                    <p class="mb-2">{{ c.name }}</p>
+                                    <p class="mb-0">1</p>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="align-middle">
+                            <div class="d-flex flex-row">
+                                <button class="btn btn-link px-2"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+
+                                <input type="number" min="0" onblur="updateCart({{ c.id }}, this)"
+                                       value="{{ c.quantity }}"
+                                       class="form-control form-control-sm" style="width: 50px;"/>
+                                <button class="btn btn-link px-2"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <p class="mb-0" style="font-weight: 500;">{{ "{:,.0f}".format(c.price) }} VNĐ</p>
+                        </td>
+                        <td>
+                            <input type="button" value="Xóa" onclick="deleteCart({{ c.id }})" class="btn btn-danger"/>
+                        </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 <div class="alert alert-info">
     <h3>Tổng sản phẩm: <span class="cart-counter">{{ cart.total_quantity }}</span></h3>
@@ -43,97 +79,7 @@
 </div>
 {% else %}
 <p>Không có sản phẩm trong giỏ!</p>
-<section class="h-100 h-custom">
-    <div class="container h-100 py-5">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col">
 
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col" class="h5">Product</th>
-                            <th scope="col">Format</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Price</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <th scope="row">
-                                <div class="d-flex align-items-center">
-                                    <img src="https://i.imgur.com/2DsA49b.webp" class="img-fluid rounded-3"
-                                         style="width: 120px;" alt="Book">
-                                    <div class="flex-column ms-4">
-                                        <p class="mb-2">Thinking, Fast and Slow</p>
-                                        <p class="mb-0">Daniel Kahneman</p>
-                                    </div>
-                                </div>
-                            </th>
-                            <td class="align-middle">
-                                <p class="mb-0" style="font-weight: 500;">Digital</p>
-                            </td>
-                            <td class="align-middle">
-                                <div class="d-flex flex-row">
-                                    <button class="btn btn-link px-2"
-                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-
-                                    <input id="form1" min="0" name="quantity" value="2" type="number"
-                                           class="form-control form-control-sm" style="width: 50px;"/>
-
-                                    <button class="btn btn-link px-2"
-                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </td>
-                            <td class="align-middle">
-                                <p class="mb-0" style="font-weight: 500;">$9.99</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="border-bottom-0">
-                                <div class="d-flex align-items-center">
-                                    <img src="https://i.imgur.com/Oj1iQUX.webp" class="img-fluid rounded-3"
-                                         style="width: 120px;" alt="Book">
-                                    <div class="flex-column ms-4">
-                                        <p class="mb-2">Homo Deus: A Brief History of Tomorrow</p>
-                                        <p class="mb-0">Yuval Noah Harari</p>
-                                    </div>
-                                </div>
-                            </th>
-                            <td class="align-middle border-bottom-0">
-                                <p class="mb-0" style="font-weight: 500;">Paperback</p>
-                            </td>
-                            <td class="align-middle border-bottom-0">
-                                <div class="d-flex flex-row">
-                                    <button class="btn btn-link px-2"
-                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-
-                                    <input id="form1" min="0" name="quantity" value="1" type="number"
-                                           class="form-control form-control-sm" style="width: 50px;"/>
-
-                                    <button class="btn btn-link px-2"
-                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </td>
-                            <td class="align-middle border-bottom-0">
-                                <p class="mb-0" style="font-weight: 500;">$13.50</p>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 {% endif %}
 
 {% endblock %}
