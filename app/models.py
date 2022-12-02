@@ -84,7 +84,7 @@ class Order(BaseModel):
 
     date = Column(DateTime, default=datetime.now())
     user_id = Column(Integer, ForeignKey(User.id), nullable=False)
-    OrderDetail_id = relationship('OrderDetails', backref='receipt', lazy=True)
+    OrderDetails = relationship('OrderDetails', backref='order', lazy=True)
 
     def __str__(self):
         return self.name
