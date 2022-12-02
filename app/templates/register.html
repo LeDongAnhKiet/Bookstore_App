@@ -1,18 +1,20 @@
 {% extends 'layout/base.html' %}
 
 {% block content %}
-{% if err_msg %}
-<div class="alert alert-danger">
-    {{ err_msg }}
-</div>
-{% endif %}
+
 <div class="row">
     <div class="col-lg-7 col-xl-6 mx-auto">
         <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
             <div class="card-img-left d-none d-md-flex">
             </div>
             <div class="card-body p-4 p-sm-5">
-                <h5 class="card-title text-center mb-5 fw-light fs-5">Register</h5>
+                <h3 class="card-title text-center mb-5 fw-light fs-5">Register</h3>
+
+                {% if err_msg %}
+                <div class="alert alert-danger">
+                    {{ err_msg }}
+                </div>
+                {% endif %}
                 <form method="post" enctype="multipart/form-data" action="/register">
 
                     <div class="form-floating mb-3">
