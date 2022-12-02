@@ -2,23 +2,23 @@
 
 {% block content %}
 
-{% if products %}
+{% if books %}
 <div class="row row-top row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
-    {% for p in products %}
+    {% for b in books %}
     <div class="col">
         <div class="card h-100 shadow-sm mx-3 my-2">
-            <a href="/products/{{p.id}}" class="mt-2">
-                <img src="{{ p.image }}" class="card-img-top" alt="{{ p.name }}"/></a>
+            <a href="/books/{{b.id}}" class="mt-2">
+                <img src="{{ b.image }}" class="card-img-top" alt="{{ b.name }}"/></a>
             <div class="card-body">
                 <div class="clearfix mb-3">
-                    <span class="float-start badge rounded-pill bg-success">{{ "{:,.1f}".format(p.price) }} VNĐ</span>
+                    <span class="float-start badge rounded-pill bg-success">{{ "{:,.1f}".format(b.price) }} VNĐ</span>
                 </div>
                 <div class="card-title">
-                    <a href="/products/{{p.id}}" class="link-dark">{{ p.name }}</a>
+                    <a href="/books/{{b.id}}" class="link-dark">{{ b.name }}</a>
                 </div>
             </div>
             <div class="d-grid gap-2 mb-3 mx-5">
-                <a href="javascript:;" onclick="addToCart({{p.id}}, '{{p.name}}', {{p.price}})" class="btn btn-warning">Đặt hàng</a>
+                <a href="javascript:;" onclick="addToCart({{b.id}}, '{{b.name}}', {{b.price}})" class="btn btn-warning">Đặt hàng</a>
             </div>
         </div>
     </div>

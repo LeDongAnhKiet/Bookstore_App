@@ -17,8 +17,8 @@ function addToCart(id, name, price) {
     }) // promise
 }
 
-function updateCart(productId, obj) {
-    fetch(`/api/cart/${productId}`, {
+function updateCart(bookId, obj) {
+    fetch(`/api/cart/${bookId}`, {
         method: "put",
         body: JSON.stringify({
             "quantity": obj.value
@@ -37,9 +37,9 @@ function updateCart(productId, obj) {
     }).catch(err => console.error(err)) // promise
 }
 
-function deleteCart(productId) {
+function deleteCart(bookId) {
     if (confirm("Bạn chắc chắn xóa không?") == true) {
-        fetch(`/api/cart/${productId}`, {
+        fetch(`/api/cart/${bookId}`, {
             method: "delete"
         }).then(res => res.json()).then((data) => {
             let d = document.getElementsByClassName("cart-counter")
@@ -50,7 +50,7 @@ function deleteCart(productId) {
             for (let i = 0; i < a.length; i++)
                 a[i].innerText = data.total_amount.toLocaleString("en-US")
 
-            let e = document.getElementById(`cart${productId}`)
+            let e = document.getElementById(`cart${bookId}`)
             e.style.display = "none"
         }).catch(err => console.error(err)) // promise
     }

@@ -13,7 +13,7 @@ def load_typeofcreator(type_id):
     return TypeofCreator.query.get(type_id)
 
 
-def load_products(category_id=None, kw=None):
+def load_books(category_id=None, kw=None):
     query = Book.query
 
     if category_id:
@@ -25,12 +25,12 @@ def load_products(category_id=None, kw=None):
     return query.all()
 
 
-def get_product_by_id(product_id):
-    return Book.query.get(product_id)
+def get_book_by_id(book_id):
+    return Book.query.get(book_id)
 
 
-def get_typeofcreator(product_id):
-    p = get_product_by_id(product_id)
+def get_typeofcreator(book_id):
+    p = get_book_by_id(book_id)
     type_list = []
     for i in p.creators:
         type_list.append(i.typeofcreator.id)
@@ -85,7 +85,7 @@ def add_order(cart):
         db.session.add(r)
         for c in cart.values():
             d = OrderDetails(quantity=c['quantity'], price=c['price'],
-                             order=r, product_id=c['id'])
+                             order=r, book_id=c['id'])
             db.session.add(d)
         try:
             db.session.commit()
@@ -102,8 +102,8 @@ def count_book_by_cate():
 
 
 def stats_revenue_by_book(kw=None, from_date=None, to_date=None):
-    query = db.session.query(Order.id, Order.name, func.sum(OrderDetails.quantity * OrderDetails.product_id)) \
-                .join(OrderDetails, OrderDetails.product_id.__eq__(Order.id)) \
+    query = db.session.query(Order.id, Order.name, func.sum(OrderDetails.quantity * OrderDetails.book_id)) \
+                .join(OrderDetails, OrderDetails.book_id.__eq__(Order.id)) \
                 .join(Order, OrderDetails.receipt_id.__eq__(Order.id))
     if kw:
         query = query.filter(Order.name.contains(kw))
