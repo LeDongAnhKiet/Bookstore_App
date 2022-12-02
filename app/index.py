@@ -61,10 +61,14 @@ def register():
         username = request.form['username']
         if not " " in username and not " " in password:
             if password.__eq__(confirm):
+                avatar = ''
+                if request.files:
+                    res = cloudinary.uploader.upload(request.files['avatar'])
+                    print(res)
+                    avatar = res['secure_url']
                 try:
-                    m = dao.register(name=request.form['name'],
-                                     password=password,
-                                     username=username)
+                    m = dao.register(name=request.form['name'], password=password,
+                                     username=request.form['username'], avatar=avatar)
                     if m:
                         return redirect('/login')
                     else:
