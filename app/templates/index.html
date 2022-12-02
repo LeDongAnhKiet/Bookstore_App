@@ -2,24 +2,31 @@
 
 {% block content %}
 
-
-        {% if products %}
-    <div class="row row-eq-height">
-         {% for p in products %}
-        <div class="col-md-3 col-sm-12 " style="padding:1rem;">
-            <div class="card">
-                <img class="card-img-top" src="{{ p.image }}" alt="{{ p.name }}">
-                <div class="card-body">
-                    <h4 class="card-title">{{ p.name }}</h4>
-                    <p class="card-text">{{ "{:,.1f}".format(p.price) }} VNĐ</p>
-                    <a href="/products/{{p.id}}" class="btn btn-primary">Xem chi tiết</a>
-                    <a href="#" class="btn btn-danger">Đặt hàng</a>
+{% if products %}
+<div class="row row-top row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
+    {% for p in products %}
+    <div class="col">
+        <div class="card h-100 shadow-sm mx-3 my-2">
+            <a href="/products/{{p.id}}" class="mt-2">
+                <img src="{{ p.image }}" class="card-img-top" alt="{{ p.name }}"/></a>
+            <div class="card-body">
+                <div class="clearfix mb-3">
+                    <span class="float-start badge rounded-pill bg-success">{{ "{:,.1f}".format(p.price) }} VNĐ</span>
+                </div>
+                <div class="card-title">
+                    <a href="/products/{{p.id}}" class="link-dark">{{ p.name }}</a>
                 </div>
             </div>
+            <div class="d-grid gap-2 mb-3 mx-5">
+                <a href="javascript:;" onclick="addToCart({{p.id}}, '{{p.name}}', {{p.price}})" class="btn btn-warning">Đặt hàng</a>
+            </div>
         </div>
-        {% endfor %}
     </div>
-    {% else %}
-    <p class="text-danger">Không có sản phẩm nào!</p>
-    {% endif %}
+    {% endfor %}
+</div>
+
+{% else %}
+<p class="text-danger">Không có sản phẩm nào!</p>
+{% endif %}
+
 {% endblock %}

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, Enum, DateTime
+from sqlalchemy import Text, Column, Integer, String, Float, ForeignKey, Enum, DateTime
 from sqlalchemy.orm import relationship, backref
 from app import db, app
 from flask_login import UserMixin
@@ -28,9 +28,19 @@ class Category(BaseModel):
         return self.name
 
 
-book_author = db.Table('book_author',
-                       Column('book_id', ForeignKey('book.id'), nullable=False, primary_key=True),
-                       Column('author_id', ForeignKey('author.id'), nullable=False, primary_key=True))
+class TypeofCreator(BaseModel):
+    __tablename__ = 'TypeOfCreator'
+
+    name = Column(String(50), nullable=False, unique=True)
+    Creators = relationship('Creator', backref='typeofcreator', lazy=True)
+
+    def __str__(self):
+        return self.name
+
+
+book_creator = db.Table('book_creator',
+                        Column('book_id', ForeignKey('book.id'), nullable=False, primary_key=True),
+                        Column('creator_id', ForeignKey('creator.id'), nullable=False, primary_key=True))
 
 
 class Book(BaseModel):
@@ -38,20 +48,25 @@ class Book(BaseModel):
 
     name = Column(String(50), nullable=False)
     price = Column(Float, default=0)
+    description = Column(Text)
     image = Column(String(130))
     quantity = Column(Integer)
     category_id = Column(Integer, ForeignKey(Category.id), nullable=False)
-    authors = relationship('Author', secondary='book_author', lazy='subquery', backref=backref('book', lazy=True))
+    creators = relationship('Creator', secondary='book_creator', lazy='subquery', backref=backref('book', lazy=True))
     order_details = relationship('OrderDetails', backref='Book', lazy=True)
 
     def __str__(self):
         return self.name
 
 
-class Author(BaseModel):
-    __tablename__ = 'author'
+class Creator(BaseModel):
+    __tablename__ = 'creator'
 
     name = Column(String(50), nullable=False)
+    type_id = Column(Integer, ForeignKey(TypeofCreator.id), nullable=False)
+
+    def __str__(self):
+        return self.name
 
 
 class User(BaseModel, UserMixin):
@@ -71,7 +86,7 @@ class Order(BaseModel):
 
     date = Column(DateTime, default=datetime.now())
     user_id = Column(Integer, ForeignKey(User.id), nullable=False)
-    OrderDetail_id = relationship('OrderDetails', backref='receipt', lazy=True)
+    OrderDetail = relationship('OrderDetails', backref='order', lazy=True)
 
     def __str__(self):
         return self.name
@@ -106,27 +121,37 @@ if __name__ == '__main__':
         db.session.add(u)
         db.session.commit()
 
-        a1 = Author(name='Robert Cecil Martin')
+        d1 = TypeofCreator(name='Tác giả')
+        d2 = TypeofCreator(name='Dịch giả')
+
+        a1 = Creator(name='Robert Cecil Martin', type_id=1)
         b1 = Book(name='Clean Code', price=299000, image='https://cdn0.fahasa.com/media/catalog/product/3/9/393129.jpg',
                   quantity=200, category_id=3)
 
-        a2 = Author(name='Alice Schroeder')
-        b2 = Book(name='Cuộc Đời Và Sự Nghiệp Của Warren Buffett', price=529000, image='https://cdn0.fahasa.com/media/catalog/product/z/2/z2347757265330_74b3b3541a95b12454cbde947ccc635e.jpg',
+        a2 = Creator(name='Alice Schroeder', type_id=1)
+        b2 = Book(name='Cuộc Đời Và Sự Nghiệp Của Warren Buffett', price=529000,
+                  image='https://cdn0.fahasa.com/media/catalog/product/z/2/z2347757265330_74b3b3541a95b12454cbde947ccc635e.jpg',
                   quantity=300, category_id=4)
 
-        a3 = Author(name='Marry Buffet')
-        a4 = Author(name='Sean Seah')
-        b3 = Book(name='7 Phương Pháp Đầu Tư Warren Buffet', price=143000, image='https://cdn0.fahasa.com/media/catalog/product/8/9/8936066694131.jpg',
+        a3 = Creator(name='Marry Buffet', type_id=1)
+        a4 = Creator(name='Sean Seah', type_id=1)
+        b3 = Book(name='7 Phương Pháp Đầu Tư Warren Buffet', price=143000,
+                  image='https://cdn0.fahasa.com/media/catalog/product/8/9/8936066694131.jpg',
                   quantity=300, category_id=4)
 
-        a5 = Author(name='Mai Lan Hương')
-        a6 = Author(name='Hà Thanh Uyên')
-        b4 = Book(name='Giải Thích Ngữ Pháp Tiếng Anh ', price=139000, image='https://cdn0.fahasa.com/media/catalog/product/z/3/z3097453775918_7ea22457f168a4de92d0ba8178a2257b.jpg'
+        a5 = Creator(name='Mai Lan Hương', type_id=1)
+        a6 = Creator(name='Hà Thanh Uyên', type_id=2)
+        b4 = Book(name='Giải Thích Ngữ Pháp Tiếng Anh ', price=139000,
+                  image='https://cdn0.fahasa.com/media/catalog/product/z/3/z3097453775918_7ea22457f168a4de92d0ba8178a2257b.jpg'
                   , quantity=300, category_id=2)
 
-        a7 = Author(name='Bộ Giáo Dục Và Đào Tạo')
-        b5 = Book(name='Sách Giáo Khoa Bộ Lớp 12', price=180000, image='https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015422-1.jpg'
+        a7 = Creator(name='Bộ Giáo Dục Và Đào Tạo', type_id=1)
+        b5 = Book(name='Sách Giáo Khoa Bộ Lớp 12', price=180000,
+                  image='https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015422-1.jpg'
                   , quantity=300, category_id=1)
+
+        db.session.add_all([d1, d2])
+        db.session.commit()
 
         db.session.add_all([a1, a2, a3, a4, a5, a6, a7])
         db.session.commit()
