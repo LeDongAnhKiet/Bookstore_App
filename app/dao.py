@@ -95,8 +95,8 @@ def add_order(cart):
 
 def count_book_by_cate():
     return db.session.query(Category.id, Category.name, func.count(Book.id))\
-             .join(Book, Book.category_id.__eq__(Book.id), isouter=True)\
-             .group_by(Category.id).order_by(Category.id).all()
+             .join(Book, Book.category_id.__eq__(Category.id), isouter=True)\
+             .group_by(Category.id).order_by(Category.name).all()
 
 
 def stats_revenue_by_book(kw=None, from_date=None, to_date=None):
