@@ -7,15 +7,15 @@ import cloudinary.uploader
 
 @app.route("/")
 def index():
-    products = dao.load_products(category_id=request.args.get('category_id'),
+    books = dao.load_books(category_id=request.args.get('category_id'),
                                  kw=request.args.get('keyword'))
-    return render_template('index.html', products=products)
+    return render_template('index.html', books=books)
 
 
-@app.route('/products/<int:product_id>')
-def details(product_id):
-    p = dao.get_product_by_id(product_id)
-    return render_template('details.html', product=p)
+@app.route('/books/<int:book_id>')
+def details(book_id):
+    p = dao.get_book_by_id(book_id)
+    return render_template('details.html', book=p)
 
 
 @app.route('/login-admin', methods=['post'])
@@ -63,12 +63,17 @@ def register():
         username = request.form['username']
         if not " " in username and not " " in password:
             if password.__eq__(confirm):
+                avatar = ''
+                if request.files:
+                    res = cloudinary.uploader.upload(request.files['avatar'])
+                    print(res)
+                    avatar = res['secure_url']
                 try:
-                    m = dao.register(name=request.form['name'],
-                                     password=password,
-                                     username=username)
+                    m = dao.register(name=request.form['name'], password=password,
+                                     username=username, avatar=avatar)
                     if m:
-                        return redirect('/login')
+                        err_msg = 'Đăng ký thành công!!!'
+                        return render_template('login.html', err_msg=err_msg)
                     else:
                         err_msg = 'Username đã tồn tại!'
                 except:
@@ -117,26 +122,26 @@ def add_to_cart():
     return jsonify(utils.cart_stats(cart))
 
 
-@app.route('/api/cart/<product_id>', methods=['put'])
-def update_cart(product_id):
+@app.route('/api/cart/<book_id>', methods=['put'])
+def update_cart(book_id):
     key = app.config['CART_KEY']
 
     cart = session.get(key)
-    if cart and product_id in cart:
-        cart[product_id]['quantity'] = int(request.json['quantity'])
+    if cart and book_id in cart:
+        cart[book_id]['quantity'] = int(request.json['quantity'])
 
     session[key] = cart
 
     return jsonify(utils.cart_stats(cart))
 
 
-@app.route('/api/cart/<product_id>', methods=['delete'])
-def delete_cart(product_id):
+@app.route('/api/cart/<book_id>', methods=['delete'])
+def delete_cart(book_id):
     key = app.config['CART_KEY']
 
     cart = session.get(key)
-    if cart and product_id in cart:
-        del cart[product_id]
+    if cart and book_id in cart:
+        del cart[book_id]
 
     session[key] = cart
 

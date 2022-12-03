@@ -19,7 +19,7 @@ class BaseModel(db.Model):
 
 
 class Category(BaseModel):
-    __tablename__ = 'category'
+    __tablename__ = 'Category'
 
     name = Column(String(50), nullable=False, unique=True)
     Books = relationship('Book', backref='category', lazy=True)
@@ -39,12 +39,12 @@ class TypeofCreator(BaseModel):
 
 
 book_creator = db.Table('book_creator',
-                       Column('book_id', ForeignKey('book.id'), nullable=False, primary_key=True),
-                       Column('creator_id', ForeignKey('creator.id'), nullable=False, primary_key=True))
+                        Column('book_id', ForeignKey('book.id'), nullable=False, primary_key=True),
+                        Column('creator_id', ForeignKey('creator.id'), nullable=False, primary_key=True))
 
 
 class Book(BaseModel):
-    __tablename__ = 'book'
+    __tablename__ = 'Book'
 
     name = Column(String(50), nullable=False)
     price = Column(Float, default=0)
@@ -60,7 +60,7 @@ class Book(BaseModel):
 
 
 class Creator(BaseModel):
-    __tablename__ = 'creator'
+    __tablename__ = 'Creator'
 
     name = Column(String(50), nullable=False)
     type_id = Column(Integer, ForeignKey(TypeofCreator.id), nullable=False)
@@ -68,10 +68,12 @@ class Creator(BaseModel):
     def __str__(self):
         return self.name
 
+
 class User(BaseModel, UserMixin):
     name = Column(String(50), nullable=False)
     username = Column(String(50), nullable=False)
     password = Column(String(50), nullable=False)
+    avatar = Column(String(100), nullable=False)
     user_role = Column(Enum(UserRole), default=UserRole.Customer)
     order = relationship('Order', backref='user', lazy=True)
 
@@ -80,7 +82,7 @@ class User(BaseModel, UserMixin):
 
 
 class Order(BaseModel):
-    __tablename__ = 'order'
+    __tablename__ = 'Order'
 
     date = Column(DateTime, default=datetime.now())
     user_id = Column(Integer, ForeignKey(User.id), nullable=False)
@@ -91,7 +93,7 @@ class Order(BaseModel):
 
 
 class OrderDetails(BaseModel):
-    __tablename__ = 'orderdetails'
+    __tablename__ = 'OrderDetails'
 
     quantity = Column(Integer, default=0)
     price = Column(Float, default=0)
@@ -114,9 +116,11 @@ if __name__ == '__main__':
         db.session.commit()
 
         password = str(hashlib.md5('123456'.encode('utf-8')).hexdigest())
-        u = User(name='Duong', username='admin', password=password, user_role=UserRole.ADMIN)
+        u = User(name='Duong', username='admin', password=password, user_role=UserRole.ADMIN,
+                 avatar='https://res.cloudinary.com/dxxwcby8l/image/upload/v1646729569/fi9v6vdljyfmiltegh7k.jpg')
         db.session.add(u)
         db.session.commit()
+
         d1 = TypeofCreator(name='Tác giả')
         d2 = TypeofCreator(name='Dịch giả')
 
@@ -125,21 +129,25 @@ if __name__ == '__main__':
                   quantity=200, category_id=3)
 
         a2 = Creator(name='Alice Schroeder', type_id=1)
-        b2 = Book(name='Cuộc Đời Và Sự Nghiệp Của Warren Buffett', price=529000, image='https://cdn0.fahasa.com/media/catalog/product/z/2/z2347757265330_74b3b3541a95b12454cbde947ccc635e.jpg',
+        b2 = Book(name='Cuộc Đời Và Sự Nghiệp Của Warren Buffett', price=529000,
+                  image='https://cdn0.fahasa.com/media/catalog/product/z/2/z2347757265330_74b3b3541a95b12454cbde947ccc635e.jpg',
                   quantity=300, category_id=4)
 
         a3 = Creator(name='Marry Buffet', type_id=1)
         a4 = Creator(name='Sean Seah', type_id=1)
-        b3 = Book(name='7 Phương Pháp Đầu Tư Warren Buffet', price=143000, image='https://cdn0.fahasa.com/media/catalog/product/8/9/8936066694131.jpg',
+        b3 = Book(name='7 Phương Pháp Đầu Tư Warren Buffet', price=143000,
+                  image='https://cdn0.fahasa.com/media/catalog/product/8/9/8936066694131.jpg',
                   quantity=300, category_id=4)
 
         a5 = Creator(name='Mai Lan Hương', type_id=1)
         a6 = Creator(name='Hà Thanh Uyên', type_id=2)
-        b4 = Book(name='Giải Thích Ngữ Pháp Tiếng Anh ', price=139000, image='https://cdn0.fahasa.com/media/catalog/product/z/3/z3097453775918_7ea22457f168a4de92d0ba8178a2257b.jpg'
+        b4 = Book(name='Giải Thích Ngữ Pháp Tiếng Anh ', price=139000,
+                  image='https://cdn0.fahasa.com/media/catalog/product/z/3/z3097453775918_7ea22457f168a4de92d0ba8178a2257b.jpg'
                   , quantity=300, category_id=2)
 
         a7 = Creator(name='Bộ Giáo Dục Và Đào Tạo', type_id=1)
-        b5 = Book(name='Sách Giáo Khoa Bộ Lớp 12', price=180000, image='https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015422-1.jpg'
+        b5 = Book(name='Sách Giáo Khoa Bộ Lớp 12', price=180000,
+                  image='https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015422-1.jpg'
                   , quantity=300, category_id=1)
         db.session.add_all([d1, d2])
         db.session.commit()

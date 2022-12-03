@@ -8,18 +8,17 @@
             </button>
             <ul class="nav navbar-nav justify-content-end ">
                   {% if current_user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link"><i class="fa-solid fa-user"></i> Hello, {{ current_user.name }}!
+                <li class="nav-item"><a class="nav-link"><i class="fa-solid fa-user"></i> Xin chào, {{ current_user.name }}!
                 </a></li>
-                <li class="nav-item"><a class="nav-link" href="/logout"><i class="fa-solid fa-right-to-bracket"></i> Log
-                    out</a></li>
+                <li class="nav-item"><a class="nav-link" href="/logout"><i class="fa-solid fa-right-to-bracket"></i> Đăng xuất</a></li>
                  {% else %}
                 <li class="nav-item"><a class="nav-link" href="/login"><i class="fa-solid fa-user"></i> Đăng nhập</a>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="/register"><i class="fa-solid fa-user"></i> Đăng ký</a>
                 </li>
                 {% endif %}
-                <li class="nav-item"><a class="nav-link" href="/cart"><i class="fa-solid fa-cart-shopping"></i> Your
-                    Cart<sup class="px-2 bg-info cart-counter border-1 rounded-3">{{ cart.total_quantity }}</sup></a></li>
+                <li class="nav-item"><a class="nav-link" href="/cart"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng
+                    Cart<span class="px-2 badge bg-danger border-1 rounded-3 cart-counter">{{ cart.total_quantity }}</span></a></li>
 
             </ul>
         </div>
