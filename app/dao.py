@@ -94,22 +94,22 @@ def add_order(cart):
 
 
 def count_book_by_cate():
-    return db.session.query(Category.id, Category.name, func.count(Order.id)) \
-        .join(Order, Order.category_id.__eq__(Category.id), isouter=True) \
-        .group_by(Category.id).order_by(Category.name).all()
+    return db.session.query(Category.id, Category.name, func.count(Book.id))\
+             .join(Book, Book.category_id.__eq__(Book.id), isouter=True)\
+             .group_by(Category.id).order_by(Category.id).all()
 
 
 def stats_revenue_by_book(kw=None, from_date=None, to_date=None):
-    query = db.session.query(Order.id, Order.name, func.sum(OrderDetails.quantity * OrderDetails.book_id)) \
-                .join(OrderDetails, OrderDetails.book_id.__eq__(Order.id)) \
-                .join(Order, OrderDetails.receipt_id.__eq__(Order.id))
+    query = db.session.query(Book.id, Book.name, func.sum(OrderDetails.quantity * OrderDetails.price)) \
+                .join(OrderDetails, OrderDetails.book_id.__eq__(Book.id)) \
+                .join(Order, OrderDetails.order_id.__eq__(Order.id))
     if kw:
-        query = query.filter(Order.name.contains(kw))
+        query = query.filter(Book.name.contains(kw))
     if from_date:
         query = query.filter(Order.created_date.__ge__(from_date))
     if to_date:
         query = query.filter(Order.created_date.__le__(to_date))
-    return query.group_by(Order.id).all()
+    return query.group_by(Book.id).all()
 
 
 if __name__ == '__main__':

@@ -44,7 +44,7 @@ book_creator = db.Table('book_creator',
 
 
 class Book(BaseModel):
-    __tablename__ = 'Book'
+    __tablename__ = 'book'
 
     name = Column(String(50), nullable=False)
     price = Column(Float, default=0)
@@ -60,7 +60,7 @@ class Book(BaseModel):
 
 
 class Creator(BaseModel):
-    __tablename__ = 'Creator'
+    __tablename__ = 'creator'
 
     name = Column(String(50), nullable=False)
     type_id = Column(Integer, ForeignKey(TypeofCreator.id), nullable=False)
