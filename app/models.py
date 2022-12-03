@@ -75,6 +75,8 @@ class User(BaseModel, UserMixin):
     password = Column(String(50), nullable=False)
     avatar = Column(String(100), nullable=False)
     user_role = Column(Enum(UserRole), default=UserRole.Customer)
+    phone = Column(String(15), nullable=True)
+    address = Column(String(100), nullable=True)
     order = relationship('Order', backref='user', lazy=True)
 
     def __str__(self):

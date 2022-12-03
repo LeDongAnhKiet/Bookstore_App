@@ -161,14 +161,12 @@ def pay():
     return jsonify({'status': 200})
 
 
-@login.user_loader
-def load_user(user_id):
-    return dao.get_user_by_id(user_id)
-
 @app.route('/account')
 @login_required
 def account():
     return render_template('account.html')
+
+
 @app.context_processor
 def common_attribute():
     categories = dao.load_categories()

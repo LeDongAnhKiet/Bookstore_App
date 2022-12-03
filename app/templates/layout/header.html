@@ -8,7 +8,7 @@
             </button>
             <ul class="nav navbar-nav justify-content-end ">
                   {% if current_user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link"><i class="fa-solid fa-user"></i> Xin chào, {{ current_user.name }}!
+                <li class="nav-item"><a class="nav-link" href="/account"><i class="fa-solid fa-user"></i> Xin chào, {{ current_user.name }}!
                 </a></li>
                 <li class="nav-item"><a class="nav-link" href="/logout"><i class="fa-solid fa-right-to-bracket"></i> Đăng xuất</a></li>
                  {% else %}
