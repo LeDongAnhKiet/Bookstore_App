@@ -29,16 +29,6 @@ def get_book_by_id(book_id):
     return Book.query.get(book_id)
 
 
-def get_type_of_creator(book_id):
-    p = get_book_by_id(book_id)
-    type_list = []
-    for i in p.creators:
-        type_list.append(i.typeofcreator.id)
-
-    type_list = set(type_list)
-    return type_list
-
-
 def auth_user(username, password):
     password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
 
@@ -55,6 +45,25 @@ def register(name, username, password, avatar):
         return True
     else:
         return False
+
+
+def register(name, username, password, avatar):
+    password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
+    if not bool(User.query.filter_by(username=username).first()):
+        u = User(name=name, username=username.strip(), password=password, avatar=avatar)
+        db.session.add(u)
+        db.session.commit()
+        return True
+    else:
+        return False
+
+
+def update_profile(id, name, address, phone):
+    user = User.query.get(id)
+    user.name = name
+    user.address = address
+    user.phone = phone
+    db.session.commit()
 
 
 def add_receipt(cart):

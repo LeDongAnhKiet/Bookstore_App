@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, session, jsonify
 from app import app, dao, admin, login, utils
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from app.decorator import annonynous_user
 import cloudinary.uploader
 
@@ -72,8 +72,8 @@ def register():
                     m = dao.register(name=request.form['name'], password=password,
                                      username=username, avatar=avatar)
                     if m:
-                        err_msg = 'Đăng ký thành công!!!'
-                        return render_template('login.html', err_msg=err_msg)
+                        # err_msg = 'Đăng ký thành công!!!'
+                        return redirect('/login')
                     else:
                         err_msg = 'Username đã tồn tại!'
                 except:
@@ -162,9 +162,27 @@ def pay():
 
 
 @app.route('/account')
-@login_required
 def account():
     return render_template('account.html')
+
+
+@app.route('/edit', methods=['get', 'post'])
+def edit():
+    err_msg = ''
+    id = current_user.id
+    if request.method == 'POST':
+        name = request.form['name']
+        address = request.form['address']
+        phone = request.form['phone']
+        try:
+            dao.update_profile(id, name, address, phone)
+            return redirect('/account')
+        except:
+            err_msg = 'Đã có lỗi xảy ra!'
+
+    return render_template('edit.html', err_msg=err_msg)
+
+
 
 
 @app.context_processor
