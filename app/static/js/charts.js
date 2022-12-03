@@ -9,10 +9,9 @@ function CateStats(labels, data) {
                 data: data,
                 borderWidth: 1
             }]
-
         },
-        option: {
-            scale: {
+        options: {
+            scales: {
                 y: {
                     beginAtZero: true
                 }
@@ -20,6 +19,7 @@ function CateStats(labels, data) {
         }
     });
 }
+
 function RevenueStats(labels, data) {
     const ctx = document.getElementById('revenueStats');
     const rndNum = () => Math.floor(Math.random() * (255 - 50 + 1) + 50);
@@ -33,10 +33,11 @@ function RevenueStats(labels, data) {
                 data: data,
                 borderWidth: 1
                 backgroundColor: ['red', 'blue', 'green', 'rndRGBA()', 'rndRGBA()']
+//                backgroundColor: ['red', 'blue', 'green', 'orange', 'rgba(100, 200, 150, 0.7)']
             }]
         },
-        option: {
-            scale: {
+        options: {
+            scales: {
                 y: {
                     beginAtZero: true
                 }
