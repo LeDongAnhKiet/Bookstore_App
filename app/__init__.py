@@ -13,6 +13,7 @@ app.secret_key = '%@di219ask2139askjiusaf'
 db = SQLAlchemy(app=app)
 cloudinary.config(cloud_name='dmfr3gngl', api_key='119749293867732', api_secret='R42-4n6WSoV-ChzSKYws7Nqy0g4')
 login = LoginManager(app=app)
+login.login_view = ('/login')
 babel = Babel(app=app)
 
 

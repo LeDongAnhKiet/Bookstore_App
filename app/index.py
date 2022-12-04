@@ -1,3 +1,5 @@
+import random
+
 from flask import render_template, request, redirect, session, jsonify
 from app import app, dao, admin, login, utils
 from flask_login import login_user, logout_user, login_required, current_user
@@ -15,7 +17,16 @@ def index():
 @app.route('/books/<int:book_id>')
 def details(book_id):
     p = dao.get_book_by_id(book_id)
-    return render_template('details.html', book=p)
+    books = dao.load_book_has_same_cate(book_id)
+    books = random.choices(books, k=4)
+    tacgia = []
+    minhhoa = []
+    for i in p.creators:
+        if i.type_id == 1:
+            tacgia.append(i.name)
+        if i.type_id == 2:
+            minhhoa.append(i.name)
+    return render_template('details.html', book=p, tacgia=tacgia, minhhoa=minhhoa, books=books)
 
 
 @app.route('/login-admin', methods=['post'])
@@ -149,6 +160,7 @@ def delete_cart(book_id):
 
 
 @app.route('/pay')
+@login_required
 def pay():
     key = app.config['CART_KEY']
     cart = session.get(key)
@@ -162,11 +174,14 @@ def pay():
 
 
 @app.route('/account')
+@login_required
 def account():
+
     return render_template('account.html')
 
 
 @app.route('/edit', methods=['get', 'post'])
+@login_required
 def edit():
     err_msg = ''
     id = current_user.id

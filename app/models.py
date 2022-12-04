@@ -46,7 +46,7 @@ book_creator = db.Table('book_creator',
 class Book(BaseModel):
     __tablename__ = 'book'
 
-    name = Column(String(50), nullable=False)
+    name = Column(String(100), nullable=False)
     price = Column(Float, default=0)
     description = Column(Text)
     image = Column(String(130))
@@ -108,54 +108,60 @@ class OrderDetails(BaseModel):
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()
-        c1 = Category(name='Sách giáo khoa')
-        c2 = Category(name='Ngoại ngữ')
-        c3 = Category(name='Khoa học')
-        c4 = Category(name='Văn học - tiểu thuyết')
+        # db.create_all()
+        # c1 = Category(name='Sách giáo khoa')
+        # c2 = Category(name='Ngoại ngữ')
+        # c3 = Category(name='Khoa học')
+        # c4 = Category(name='Văn học - tiểu thuyết')
+        #
+        # db.session.add_all([c1, c2, c3, c4])
+        # db.session.commit()
+        #
+        # password = str(hashlib.md5('123456'.encode('utf-8')).hexdigest())
+        # u = User(name='Duong', username='admin', password=password, user_role=UserRole.ADMIN,
+        #          avatar='https://res.cloudinary.com/dxxwcby8l/image/upload/v1646729569/fi9v6vdljyfmiltegh7k.jpg')
+        # db.session.add(u)
+        # db.session.commit()
+        #
+        # d1 = TypeofCreator(name='Tác giả')
+        # d2 = TypeofCreator(name='Minh họa')
+        #
+        # a1 = Creator(name='Robert Cecil Martin', type_id=1)
+        # a2 = Creator(name='Alice Schroeder', type_id=1)
+        # a3 = Creator(name='Marry Buffet', type_id=1)
+        # a4 = Creator(name='Sean Seah', type_id=1)
+        # a5 = Creator(name='Mai Lan Hương', type_id=1)
+        # a6 = Creator(name='Hà Thanh Uyên', type_id=1)
+        # a7 = Creator(name='Bộ Giáo Dục Và Đào Tạo', type_id=1)
+        # a8 = Creator(name='Mishima Yomu', type_id=1)
+        # a9 = Creator(name='Monda', type_id=2)
+        # db.session.add_all([d1, d2])
+        # db.session.commit()
+        #
+        # db.session.add_all([a1, a2, a3, a4, a5, a6, a7, a8, a9])
+        # db.session.commit()
 
-        db.session.add_all([c1, c2, c3, c4])
-        db.session.commit()
-
-        password = str(hashlib.md5('123456'.encode('utf-8')).hexdigest())
-        u = User(name='Duong', username='admin', password=password, user_role=UserRole.ADMIN,
-                 avatar='https://res.cloudinary.com/dxxwcby8l/image/upload/v1646729569/fi9v6vdljyfmiltegh7k.jpg')
-        db.session.add(u)
-        db.session.commit()
-
-        d1 = TypeofCreator(name='Tác giả')
-        d2 = TypeofCreator(name='Dịch giả')
-
-        a1 = Creator(name='Robert Cecil Martin', type_id=1)
         b1 = Book(name='Clean Code', price=299000, image='https://cdn0.fahasa.com/media/catalog/product/3/9/393129.jpg',
                   quantity=200, category_id=3)
 
-        a2 = Creator(name='Alice Schroeder', type_id=1)
         b2 = Book(name='Cuộc Đời Và Sự Nghiệp Của Warren Buffett', price=529000,
                   image='https://cdn0.fahasa.com/media/catalog/product/z/2/z2347757265330_74b3b3541a95b12454cbde947ccc635e.jpg',
                   quantity=300, category_id=4)
 
-        a3 = Creator(name='Marry Buffet', type_id=1)
-        a4 = Creator(name='Sean Seah', type_id=1)
         b3 = Book(name='7 Phương Pháp Đầu Tư Warren Buffet', price=143000,
                   image='https://cdn0.fahasa.com/media/catalog/product/8/9/8936066694131.jpg',
                   quantity=300, category_id=4)
 
-        a5 = Creator(name='Mai Lan Hương', type_id=1)
-        a6 = Creator(name='Hà Thanh Uyên', type_id=2)
         b4 = Book(name='Giải Thích Ngữ Pháp Tiếng Anh ', price=139000,
                   image='https://cdn0.fahasa.com/media/catalog/product/z/3/z3097453775918_7ea22457f168a4de92d0ba8178a2257b.jpg'
                   , quantity=300, category_id=2)
 
-        a7 = Creator(name='Bộ Giáo Dục Và Đào Tạo', type_id=1)
         b5 = Book(name='Sách Giáo Khoa Bộ Lớp 12', price=180000,
                   image='https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015422-1.jpg'
                   , quantity=300, category_id=1)
-        db.session.add_all([d1, d2])
-        db.session.commit()
 
-        db.session.add_all([a1, a2, a3, a4, a5, a6, a7])
-        db.session.commit()
-
-        db.session.add_all([b1, b2, b3, b4, b5])
+        b6 = Book(name='Thế Giới Otome Game Thật Khắc Nghiệt Với Nhân Vật Quần Chúng', price=120000,
+                  image='https://cdn0.fahasa.com/media/catalog/product/6/0/600_nh-s_ch-th_-gi_i-otome-game...-5_2.jpg',
+                  quantity=0, category_id=4)
+        db.session.add_all([b1, b2, b3, b4, b5, b6])
         db.session.commit()

@@ -1,72 +1,85 @@
 {% extends 'layout/base.html' %}
 
 {% block content %}
-    <div class="row justify-content-center px-3">
-        <div class="col-md-6">
-            <div class="main-img">
-                <img class="img-fluid" src="{{ book.image }}"
-                     alt="{{ book.name }}">
-            </div>
+<div class="row justify-content-center px-3">
+    <div class="col-md-6">
+        <div class="main-img">
+            <img class="img-fluid" src="{{ book.image }}"
+                 alt="{{ book.name }}">
         </div>
-        <div class="col-md-6">
-            <div class="px-2">
-                <h3 class="text-bold my-3">
-                    {{ book.name }}
-                </h3>
-                <div class="text-bold my-1">
-                    Thể loại: {{ book.category.name }}
-                </div>
-                <div class="d-flex text-bold my-1">
-
-                </div>
-                 <div class="text-bold my-1">
-                    <p class="text-color mb-2">Tình trạng:
+    </div>
+    <div class="col-md-6">
+        <div class="px-2">
+            <h3 class="text-bold my-3">
+                {{ book.name }}
+            </h3>
+            <div class="text-bold my-1">
+                Thể loại: {{ book.category.name }}
+            </div>
+            <div class="d-flex text-bold my-1">
+                {% if tacgia %}
+                Tác giả:
+                <ul>
+                    {% for i in tacgia %}
+                    <li> {{ i }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div class="d-flex text-bold my-1">
+                {% if minhhoa %}
+                Minh họa:
+                <ul>
+                    {% for i in minhhoa %}
+                    <li> {{ i }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div class="text-bold my-1">
+                <p class="text-color mb-2">Tình trạng:
                     {% if book.quantity > 0 %}
-                        <b class="text-success"> Còn hàng</b>
-                        {% else %}
-                        <b class="text-danger"> Hết hàng</b>
-                        {% endif %}
-                    </p>
+                    <b class="text-success"> Còn hàng</b>
+                    {% else %}
+                    <b class="text-danger"> Hết hàng</b>
+                    {% endif %}
+                </p>
 
-                </div>
+            </div>
 
-                <div class="my-4">
-                    <h2 class="mb-1"> {{ "{:,.0f}".format(book.price) }} VNĐ</h2>
-                </div>
+            <div class="my-4">
+                <h2 class="mb-1"> {{ "{:,.0f}".format(book.price) }} VNĐ</h2>
+            </div>
 
-                <div class="my-4 text-break">
-<!--                text-break ngat dong-->
-                    Mô tả: {{ book.description}}
-                    <h2 class="mb-1">{{ "{:,.0f}".format(book.price) }} VNĐ</h2>
-                </div>
+            <div class="my-4 text-break">
+                <!--                text-break ngat dong-->
+                Mô tả: {{ book.description}}
+            </div>
 
-                <div class="d-flex py-5">
-                    <div class="block me-2">
-                        <a href="javascript:;" onclick="addToCart({{book.id}}, '{{book.name}}', {{book.price}}  )"
-                         class="btn btn-info"><i class="fa-solid fa-cart-plus"></i> Đặt hàng</a>
-                    </div>
-
-<!--                    <div class="block quantity me-2">-->
-<!--                        <input type="number" class="form-control" id="cart_quantity" value="1" min="0" max="5"-->
-<!--                                name="cart_quantity">-->
-<!--                    </div>-->
+            <div class="d-flex py-5">
+                <div class="block me-2">
+                    <a href="javascript:;" onclick="addToCart({{book.id}}, '{{book.name}}', {{book.price}}  )"
+                       class="btn btn-info"><i class="fa-solid fa-cart-plus"></i> Đặt hàng</a>
                 </div>
             </div>
         </div>
     </div>
+</div>
 <div class="container my-5">
-        <hr>
-        <h1 class="d-flex justify-content-center">Similar Books</h1>
-
-<!--        <div class="row">-->
-<!--            <div class="col-md-3">-->
-<!--                <a>-->
-<!--                <div class="card-body">-->
-<!--                    <img class="w-100" src="" alt="Preview">-->
-<!--                    <p class="title">Lovely black dress</p>-->
-<!--                    <p class="price">$100</p>-->
-<!--                </div></a>-->
-<!--            </div>-->
-<!--        </div>-->
+    <hr>
+    <h1 class="d-flex justify-content-center">Similar Books</h1>
+    <div class="row">
+        {% for i in books %}
+        <div class="col-md-3">
+            <div class="card-body">
+                <a href="/books/{{i.id}}"><img class="card-img-top" src="{{ i.image }}" alt=" i.name ">
+                </a>
+                <p class="title">{{ i.name }}</p>
+            </div>
+            <div>
+                <p>{{ "{:,.1f}".format(i.price) }} VND</p></div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

@@ -1,5 +1,5 @@
 from flask_login import current_user
-from app.models import Category, Book, User, TypeofCreator, Order, OrderDetails
+from app.models import Category, Book, User, Order, OrderDetails, TypeofCreator
 from app import db
 from sqlalchemy import func
 import hashlib
@@ -9,8 +9,8 @@ def load_categories():
     return Category.query.all()
 
 
-def load_type_of_creator(type_id):
-    return TypeofCreator.query.get(type_id)
+def load_type():
+    return TypeofCreator.query.all()
 
 
 def load_books(category_id=None, kw=None):
@@ -27,6 +27,13 @@ def load_books(category_id=None, kw=None):
 
 def get_book_by_id(book_id):
     return Book.query.get(book_id)
+
+def load_book_has_same_cate(book_id):
+    b = Book.query.get(book_id)
+    # return Book.query.join(Category, Book.category_id==Category.id)\
+    #     .filter(Category.id.__eq__(b.category_id)).limit(2).all() .limit() = select top(2)
+    return Book.query.join(Category, Book.category_id == Category.id)\
+        .filter(Category.id.__eq__(b.category_id)).all()
 
 
 def auth_user(username, password):
@@ -119,6 +126,7 @@ def stats_revenue_by_book(kw=None, from_date=None, to_date=None):
     if to_date:
         query = query.filter(Order.created_date.__le__(to_date))
     return query.group_by(Book.id).all()
+
 
 
 if __name__ == '__main__':
