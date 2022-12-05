@@ -1,6 +1,7 @@
 {% extends 'layout/base.html' %}
 
 {% block content %}
+{% if book %}
 <div class="row justify-content-center px-3">
     <div class="col-md-6">
         <div class="main-img">
@@ -82,4 +83,5 @@
         {% endfor %}
     </div>
 </div>
+{% endif %}
 {% endblock %}

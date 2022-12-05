@@ -17,16 +17,19 @@ def index():
 @app.route('/books/<int:book_id>')
 def details(book_id):
     p = dao.get_book_by_id(book_id)
-    books = dao.load_book_has_same_cate(book_id)
-    books = random.choices(books, k=4)
-    tacgia = []
-    minhhoa = []
-    for i in p.creators:
-        if i.type_id == 1:
-            tacgia.append(i.name)
-        if i.type_id == 2:
-            minhhoa.append(i.name)
-    return render_template('details.html', book=p, tacgia=tacgia, minhhoa=minhhoa, books=books)
+    if not p:
+        return redirect('/')
+    else:
+        books = dao.load_book_has_same_cate(book_id)
+        books = random.choices(books, k=4)
+        tacgia = []
+        minhhoa = []
+        for i in p.creators:
+            if i.type_id == 1:
+                tacgia.append(i.name)
+            if i.type_id == 2:
+                minhhoa.append(i.name)
+        return render_template('details.html', book=p, tacgia=tacgia, minhhoa=minhhoa, books=books)
 
 
 @app.route('/login-admin', methods=['post'])
@@ -195,6 +198,21 @@ def edit():
             err_msg = 'Đã có lỗi xảy ra!'
 
     return render_template('edit.html', err_msg=err_msg)
+
+
+@app.route('/order-history')
+@login_required
+def load_order():
+    orders = dao.load_order_history(current_user.id)
+
+    return render_template('order-history.html', orders=orders)
+
+
+@app.route('/order-history/<int:order_id>')
+@login_required
+def order_details(order_id):
+    p = dao.load_orderdetails(order_id)
+    return render_template('orders.html', p=p)
 
 
 @app.context_processor

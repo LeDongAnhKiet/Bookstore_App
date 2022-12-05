@@ -128,6 +128,14 @@ def stats_revenue_by_book(kw=None, from_date=None, to_date=None):
         query = query.filter(Order.created_date.__le__(to_date))
     return query.group_by(Book.id).all()
 
+def load_order_history(user_id):
+    u = User.query.get(user_id)
+    return Order.query.join(User, User.id == Order.user_id).filter(Order.user_id == user_id).all()
+
+
+def load_orderdetails(od_id):
+    return Order.query.get(od_id)
+
 
 if __name__ == '__main__':
     from app import app
