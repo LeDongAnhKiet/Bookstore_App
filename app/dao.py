@@ -133,7 +133,7 @@ def load_order_history(user_id):
     return Order.query.join(User, User.id == Order.user_id).filter(Order.user_id == user_id).all()
 
 
-def load_orderdetails(od_id):
+def load_order_details(od_id):
     return Order.query.get(od_id)
 
 

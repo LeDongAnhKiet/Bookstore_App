@@ -46,8 +46,8 @@ let data = [], labels = [];
   {% for s in stats %}
     data.push({{ s[2] }})
     labels.push('{{ s[1] }}')
-    {% endfor %}
-  windows.onload = function() {
+  {% endfor %}
+  window.onload = function() {
     RevenueStats(labels, data)
   }
 </script>

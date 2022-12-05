@@ -211,7 +211,7 @@ def load_order():
 @app.route('/order-history/<int:order_id>')
 @login_required
 def order_details(order_id):
-    p = dao.load_orderdetails(order_id)
+    p = dao.load_order_details(order_id)
     return render_template('orders.html', p=p)
 
 
