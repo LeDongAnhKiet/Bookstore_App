@@ -77,14 +77,9 @@ def register():
         username = request.form['username']
         if not " " in username and not " " in password:
             if password.__eq__(confirm):
-                avatar = ''
-                if request.files:
-                    res = cloudinary.uploader.upload(request.files['avatar'])
-                    print(res)
-                    avatar = res['secure_url']
                 try:
                     m = dao.register(name=request.form['name'], password=password,
-                                     username=username, avatar=avatar)
+                                     username=username)
                     if m:
                         # err_msg = 'Đăng ký thành công!!!'
                         return redirect('/login')
@@ -168,7 +163,7 @@ def pay():
     key = app.config['CART_KEY']
     cart = session.get(key)
 
-    if dao.add_receipt(cart=cart):
+    if dao.add_order(cart=cart):
         del session[key]
     else:
         return jsonify({'status': 500})
@@ -200,6 +195,31 @@ def edit():
     return render_template('edit.html', err_msg=err_msg)
 
 
+@app.route('/change-password', methods=['get', 'post'])
+@login_required
+def change_password():
+    err_msg = ''
+    id = current_user.id
+    if request.method.__eq__('POST'):
+        old_pw = request.form['oldpassword']
+        new_pw = request.form['newpassword']
+        confirm = request.form['confirm']
+        if new_pw.__eq__(confirm):
+            try:
+                m = dao.change_pw(id, old_pw, new_pw)
+                if m:
+                    return redirect('/account')
+                else:
+                    err_msg = 'Mật khẩu cũ sai'
+                    return render_template('change-password.html', err_msg=err_msg)
+            except:
+                err_msg = 'Đã có lỗi xảy ra!'
+        else:
+            err_msg = 'Nhập mật khẩu không khớp'
+
+    return render_template('change-password.html', err_msg=err_msg)
+
+
 @app.route('/order-history')
 @login_required
 def load_order():
@@ -211,7 +231,7 @@ def load_order():
 @app.route('/order-history/<int:order_id>')
 @login_required
 def order_details(order_id):
-    p = dao.load_order_details(order_id)
+    p = dao.load_orderdetails(order_id)
     return render_template('orders.html', p=p)
 
 
