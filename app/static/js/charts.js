@@ -22,8 +22,8 @@ function CateStats(labels, data) {
 
 function RevenueStats(labels, data) {
     const ctx = document.getElementById('revenueStats');
-    const rndNum = () => Math.floor(Math.random() * (255 - 50 + 1) + 50);
-    const rndRGBA = () => `rgba(${rndNum()}, ${rndNum()}, ${rndNum()}, 0.7)`;
+//    const rndNum = () => Math.floor(Math.random() * (255 - 50 + 1) + 50);
+//    const rndRGBA = () => `rgba(${rndNum()}, ${rndNum()}, ${rndNum()}, 0.7)`;
     new Chart (ctx, {
         type: 'bar',
         data: {
@@ -32,8 +32,8 @@ function RevenueStats(labels, data) {
                 label: 'Doanh thu',
                 data: data,
                 borderWidth: 1
-                backgroundColor: ['red', 'blue', 'green', 'rndRGBA()', 'rndRGBA()']
-//                backgroundColor: ['red', 'blue', 'green', 'orange', 'rgba(100, 200, 150, 0.7)']
+//                backgroundColor: ['red', 'blue', 'green', 'rndRGBA()', 'rndRGBA()']
+                backgroundColor: ['red', 'blue', 'green', 'orange', 'rgba(100, 200, 150, 0.7)']
             }]
         },
         options: {

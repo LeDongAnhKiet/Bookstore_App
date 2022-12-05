@@ -4,7 +4,7 @@ def cart_stats(cart):
     if cart:
         for c in cart.values():
             total_quantity += c['quantity']
-            total_amount += c['quantity']*c['price']
+            total_amount += c['quantity'] * c['price']
 
     return {
         'total_amount': total_amount,

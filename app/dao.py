@@ -28,11 +28,12 @@ def load_books(category_id=None, kw=None):
 def get_book_by_id(book_id):
     return Book.query.get(book_id)
 
+
 def load_book_has_same_cate(book_id):
     b = Book.query.get(book_id)
     # return Book.query.join(Category, Book.category_id==Category.id)\
     #     .filter(Category.id.__eq__(b.category_id)).limit(2).all() .limit() = select top(2)
-    return Book.query.join(Category, Book.category_id == Category.id)\
+    return Book.query.join(Category, Book.category_id == Category.id) \
         .filter(Category.id.__eq__(b.category_id)).all()
 
 
@@ -110,15 +111,15 @@ def add_order(cart):
 
 
 def count_book_by_cate():
-    return db.session.query(Category.id, Category.name, func.count(Book.id))\
-             .join(Book, Book.category_id.__eq__(Category.id), isouter=True)\
-             .group_by(Category.id).order_by(Category.name).all()
+    return db.session.query(Category.id, Category.name, func.count(Book.id)) \
+        .join(Book, Book.category_id.__eq__(Category.id), isouter=True) \
+        .group_by(Category.id).order_by(Category.name).all()
 
 
 def stats_revenue_by_book(kw=None, from_date=None, to_date=None):
     query = db.session.query(Book.id, Book.name, func.sum(OrderDetails.quantity * OrderDetails.price)) \
-                .join(OrderDetails, OrderDetails.book_id.__eq__(Book.id)) \
-                .join(Order, OrderDetails.order_id.__eq__(Order.id))
+        .join(OrderDetails, OrderDetails.book_id.__eq__(Book.id)) \
+        .join(Order, OrderDetails.order_id.__eq__(Order.id))
     if kw:
         query = query.filter(Book.name.contains(kw))
     if from_date:
@@ -126,7 +127,6 @@ def stats_revenue_by_book(kw=None, from_date=None, to_date=None):
     if to_date:
         query = query.filter(Order.created_date.__le__(to_date))
     return query.group_by(Book.id).all()
-
 
 
 if __name__ == '__main__':

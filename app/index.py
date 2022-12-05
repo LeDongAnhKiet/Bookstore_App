@@ -10,7 +10,7 @@ import cloudinary.uploader
 @app.route("/")
 def index():
     books = dao.load_books(category_id=request.args.get('category_id'),
-                                 kw=request.args.get('keyword'))
+                           kw=request.args.get('keyword'))
     return render_template('index.html', books=books)
 
 
@@ -176,7 +176,6 @@ def pay():
 @app.route('/account')
 @login_required
 def account():
-
     return render_template('account.html')
 
 
@@ -196,8 +195,6 @@ def edit():
             err_msg = 'Đã có lỗi xảy ra!'
 
     return render_template('edit.html', err_msg=err_msg)
-
-
 
 
 @app.context_processor
