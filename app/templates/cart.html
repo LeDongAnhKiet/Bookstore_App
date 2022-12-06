@@ -33,15 +33,15 @@
     <h3>Tổng sản phẩm: <span class="cart-counter">{{ cart.total_quantity }}</span></h3>
     <h3>Tổng tiền: <span class="cart-amount">{{ "{:,.0f}".format(cart.total_amount) }}</span> VNĐ</h3>
 </div>
-<!--<div>-->
-<!--    <input type="radio" name="ordertype" value="Thanh toán">Thanh toán-->
-<!--    <input type="radio" name="ordertype" value="Đặt Hàng">Đặt Hàng-->
-<!--</div>-->
+<div>
+    <input type="radio" name="ordertype" value="1">Thanh toán
+    <input type="radio" name="ordertype" value="2">Đặt Hàng
+</div>
 <div>
     {% if current_user.is_authenticated %}
-    <input type="button" value="Thanh toán" onclick="pay()" class="btn btn-success"/>
-    <input type="button" value="Đặt hàng trước" onclick="preorder()" class="btn btn-info"/>
-<!--    <input type="button" value="Thực hiện giao dịch" onclick="MakePayment()" class="btn btn-info"/>-->
+<!--    <input type="button" value="Thanh toán" onclick="pay()" class="btn btn-success"/>-->
+<!--    <input type="button" value="Đặt hàng trước" onclick="preorder()" class="btn btn-info"/>-->
+    <input type="button" value="Thực hiện giao dịch" onclick="MakePayment()" class="btn btn-info"/>
     {% else %}
     <p>Vui lòng <a href="/login?next=/cart">đăng nhập</a> để thanh toán!</p>
     {% endif %}

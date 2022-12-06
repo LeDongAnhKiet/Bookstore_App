@@ -77,16 +77,16 @@ function preorder() {
 
 }
 // Lấy radio button đê chọn cách thanh toán
-//function MakePayment() {
-//            var ele = document.getElementsByName('ordertype');
-//
-//            for(i = 0; i < ele.length; i++) {
-//                if(ele[i].checked)
-//                    a = +ele[i].value;
-//            }
-//            if (a == 'Thanh toán')
-//                pay()
-//            else
-//                preorder()
-//        }
+function MakePayment() {
+            var ele = document.getElementsByName('ordertype');
+
+            for(i = 0; i < ele.length; i++) {
+                if(ele[i].checked)
+                    a = +ele[i].value;
+            }
+            if (a == "1")
+                pay()
+            else
+                preorder()
+        }
 
