@@ -1,5 +1,7 @@
+from datetime import datetime
+
 from flask_login import current_user
-from app.models import Category, Book, User, Order, OrderDetails, TypeofCreator
+from app.models import Category, Book, User, Order, OrderDetails, TypeofCreator, OrderType
 from app import db
 from sqlalchemy import func
 import hashlib
@@ -79,7 +81,22 @@ def get_user_by_id(user_id):
 
 def add_order(cart):
     if cart:
-        r = Order(user=current_user)
+        r = Order(user=current_user, type=OrderType.DatHang, date=datetime.now())
+        db.session.add(r)
+        for c in cart.values():
+            d = OrderDetails(quantity=c['quantity'], price=c['price'], order=r, book_id=c['id'])
+            db.session.add(d)
+        try:
+            db.session.commit()
+        except:
+            return False
+        else:
+            return True
+
+
+def makepayment(cart):
+    if cart:
+        r = Order(user=current_user, type=OrderType.ThanhToan)
         db.session.add(r)
         for c in cart.values():
             d = OrderDetails(quantity=c['quantity'], price=c['price'], order=r, book_id=c['id'])
@@ -98,11 +115,10 @@ def count_book_by_cate():
         .group_by(Category.id).order_by(Category.name).all()
 
 
-
 def stats_revenue_by_book(kw=None, from_date=None, to_date=None):
     query = db.session.query(Book.id, Book.name, func.sum(OrderDetails.quantity * OrderDetails.price)) \
-                .join(OrderDetails, OrderDetails.book_id.__eq__(Book.id)) \
-                .join(Order, OrderDetails.order_id.__eq__(Order.id))
+        .join(OrderDetails, OrderDetails.book_id.__eq__(Book.id)) \
+        .join(Order, OrderDetails.order_id.__eq__(Order.id))
     if kw:
         query = query.filter(Book.name.contains(kw))
     if from_date:

@@ -67,3 +67,26 @@ function pay() {
 
 }
 
+function preorder() {
+    if (confirm("Bạn chắc chắn đặt hàng không?")) {
+        fetch("/preorder").then(res => res.json()).then(data => {
+            if (data.status === 200)
+                location.reload()
+        })
+    }
+
+}
+// Lấy radio button đê chọn cách thanh toán
+//function MakePayment() {
+//            var ele = document.getElementsByName('ordertype');
+//
+//            for(i = 0; i < ele.length; i++) {
+//                if(ele[i].checked)
+//                    a = +ele[i].value;
+//            }
+//            if (a == 'Thanh toán')
+//                pay()
+//            else
+//                preorder()
+//        }
+

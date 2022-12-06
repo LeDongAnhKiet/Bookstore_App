@@ -163,12 +163,27 @@ def pay():
     key = app.config['CART_KEY']
     cart = session.get(key)
 
+    if dao.makepayment(cart=cart):
+        del session[key]
+    else:
+        return jsonify({'status': 500})
+
+    return jsonify({'status': 200})
+
+
+@app.route('/preorder')
+@login_required
+def preorder():
+    key = app.config['CART_KEY']
+    cart = session.get(key)
+
     if dao.add_order(cart=cart):
         del session[key]
     else:
         return jsonify({'status': 500})
 
     return jsonify({'status': 200})
+
 
 
 @app.route('/account')
