@@ -1,5 +1,3 @@
-import random
-
 from flask import render_template, request, redirect, session, jsonify
 from app import app, dao, admin, login, utils
 from flask_login import login_user, logout_user, login_required, current_user
@@ -21,7 +19,6 @@ def details(book_id):
         return redirect('/')
     else:
         books = dao.load_book_has_same_cate(book_id)
-        books = random.choices(books, k=4)
         tacgia = []
         minhhoa = []
         for i in p.creators:

@@ -15,7 +15,7 @@ def load_type():
     return TypeofCreator.query.all()
 
 
-def load_books(category_id=None, kw=None):
+def load_books(category_id=None, kw=None, page=1):
     query = Book.query
 
     if category_id:
@@ -34,9 +34,11 @@ def get_book_by_id(book_id):
 def load_book_has_same_cate(book_id):
     b = Book.query.get(book_id)
     # return Book.query.join(Category, Book.category_id==Category.id)\
-    #     .filter(Category.id.__eq__(b.category_id)).limit(2).all() .limit() = select top(2)
-    return Book.query.join(Category, Book.category_id == Category.id) \
-        .filter(Category.id.__eq__(b.category_id)).all()
+    #     .filter(Category.id.__eq__(b.category_id)).limit(2).all()
+    # return Book.query.join(Category, Book.category_id == Category.id) \
+    #     .filter(Category.id.__eq__(b.category_id)).count()
+    return Book.query.join(Category, Book.category_id == Category.id)\
+        .filter(Category.id.__eq__(b.category_id)).order_by(func.random()).limit(4)
 
 
 def auth_user(username, password):
