@@ -19,6 +19,7 @@ babel = Babel(app=app)
 
 
 
+
 @babel.localeselector
 def load_locale():
     return "vi"

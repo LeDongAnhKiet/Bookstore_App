@@ -2,7 +2,7 @@ from datetime import datetime
 
 from flask_login import current_user
 from app.models import Category, Book, User, Order, OrderDetails, TypeofCreator, OrderType
-from app import db
+from app import db, app
 from sqlalchemy import func
 import hashlib
 
@@ -24,7 +24,11 @@ def load_books(category_id=None, kw=None, page=1):
     if kw:
         query = query.filter(Book.name.contains(kw))
 
-    return query.all()
+    return query.paginate(page=page, per_page=8)
+
+
+def count_books():
+    return Book.query.count()
 
 
 def get_book_by_id(book_id):

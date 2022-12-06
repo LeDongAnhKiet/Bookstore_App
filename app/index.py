@@ -1,3 +1,5 @@
+import math
+
 from flask import render_template, request, redirect, session, jsonify
 from app import app, dao, admin, login, utils
 from flask_login import login_user, logout_user, login_required, current_user
@@ -7,8 +9,10 @@ import cloudinary.uploader
 
 @app.route("/")
 def index():
+    page = request.args.get('page', 1, type=int)
     books = dao.load_books(category_id=request.args.get('category_id'),
-                           kw=request.args.get('keyword'))
+                           kw=request.args.get('keyword'), page=page)
+
     return render_template('index.html', books=books)
 
 
