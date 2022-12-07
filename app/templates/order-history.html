@@ -18,15 +18,6 @@
             <td>{{ i.date }}</td>
             <td>{{ i.type.value }}</td>
             <td>{{ i.status.value }}</td>
-            {% if i.payment == True %}
-            <td>
-                Đã thanh toán
-            </td>
-            {% else %}
-            <td>
-                Chưa thanh toán
-            </td>
-            {% endif %}
             <td>
                 <a href="/order-history/{{i.id}}">Xem chi tiết</a>
             </td>

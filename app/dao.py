@@ -87,8 +87,7 @@ def get_user_by_id(user_id):
 
 def add_order(cart):
     if cart:
-        r = Order(user=current_user, type=OrderType.DatHang, date=datetime.now(), status=OrderStatus.Waiting,
-                  payment=False)
+        r = Order(user=current_user, type=OrderType.DatHang, date=datetime.now(), status=OrderStatus.Waiting)
         db.session.add(r)
         for c in cart.values():
             d = OrderDetails(quantity=c['quantity'], price=c['price'], order=r, book_id=c['id'])
@@ -103,8 +102,7 @@ def add_order(cart):
 
 def makepayment(cart):
     if cart:
-        r = Order(user=current_user, type=OrderType.ThanhToan, date=datetime.now(), status=OrderStatus.Success,
-                  payment=True)
+        r = Order(user=current_user, type=OrderType.ThanhToan, date=datetime.now(), status=OrderStatus.Success)
         db.session.add(r)
         for c in cart.values():
             d = OrderDetails(quantity=c['quantity'], price=c['price'], order=r, book_id=c['id'])
@@ -138,7 +136,14 @@ def stats_revenue_by_book(kw=None, from_date=None, to_date=None):
 
 def load_order_history(user_id):
     u = User.query.get(user_id)
-    return Order.query.join(User, User.id == Order.user_id).filter(Order.user_id == user_id).all()
+    myorder = Order.query.join(User, User.id == Order.user_id).filter(Order.user_id == user_id).all()
+    for i in myorder:
+        if i.type == OrderType.DatHang and i.status == OrderStatus.Waiting:
+            rs = (datetime.now() - i.date).days
+            if rs > 2:
+                i.status = OrderStatus.Failure
+                db.session.commit()
+    return myorder
 
 
 def load_orderdetails(od_id):
