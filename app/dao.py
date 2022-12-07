@@ -128,9 +128,9 @@ def stats_revenue_by_book(kw=None, from_date=None, to_date=None):
     if kw:
         query = query.filter(Book.name.contains(kw))
     if from_date:
-        query = query.filter(Order.created_date.__ge__(from_date))
+        query = query.filter(Order.date.__ge__(from_date))
     if to_date:
-        query = query.filter(Order.created_date.__le__(to_date))
+        query = query.filter(Order.date.__le__(to_date))
     return query.group_by(Book.id).all()
 
 

@@ -79,7 +79,7 @@ class User(BaseModel, UserMixin):
     name = Column(String(50), nullable=False)
     username = Column(String(50), nullable=False)
     password = Column(String(50), nullable=False)
-    avatar = Column(String(100), nullable=False)
+    avatar = Column(String(100), nullable=True)
     user_role = Column(Enum(UserRole), default=UserRole.Customer)
     phone = Column(String(15), nullable=True)
     address = Column(String(100), nullable=True)
@@ -87,7 +87,6 @@ class User(BaseModel, UserMixin):
 
     def __str__(self):
         return self.name
-
 
 
 class Order(BaseModel):
@@ -100,7 +99,6 @@ class Order(BaseModel):
 
     def __str__(self):
         return self.name
-
 
 
 class OrderDetails(BaseModel):
@@ -174,4 +172,3 @@ if __name__ == '__main__':
                   quantity=0, category_id=4)
         db.session.add_all([b1, b2, b3, b4, b5, b6])
         db.session.commit()
-

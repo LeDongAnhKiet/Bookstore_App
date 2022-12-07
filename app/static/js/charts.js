@@ -33,7 +33,30 @@ function drawRevenueStats (labels, data) {
         label: 'Doanh Thu',
         data: data,
         borderWidth: 1,
- backgroundColor: ['red', 'blue', 'green', 'rgba(100, 200, 150, 0.8)']
+        backgroundColor: ['red', 'blue', 'green', 'rgba(100, 200, 150, 0.8)']
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+}
+
+function drawFrequencyStats (labels, data) {
+    const ctx = document.getElementById('frequencyStats');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Tần Suất',
+        data: data,
+        borderWidth: 1,
+        backgroundColor: ['red', 'blue', 'green', 'rgba(100, 200, 150, 0.8)']
       }]
     },
     options: {
