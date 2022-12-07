@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from flask_login import current_user
-from app.models import Category, Book, User, Order, OrderDetails, TypeofCreator, OrderType
+from app.models import Category, Book, User, Order, OrderDetails, TypeofCreator, OrderType, OrderStatus
 from app import db, app
 from sqlalchemy import func
 import hashlib
@@ -41,7 +41,7 @@ def load_book_has_same_cate(book_id):
     #     .filter(Category.id.__eq__(b.category_id)).limit(2).all()
     # return Book.query.join(Category, Book.category_id == Category.id) \
     #     .filter(Category.id.__eq__(b.category_id)).count()
-    return Book.query.join(Category, Book.category_id == Category.id)\
+    return Book.query.join(Category, Book.category_id == Category.id) \
         .filter(Category.id.__eq__(b.category_id)).order_by(func.random()).limit(4)
 
 
@@ -87,7 +87,8 @@ def get_user_by_id(user_id):
 
 def add_order(cart):
     if cart:
-        r = Order(user=current_user, type=OrderType.DatHang, date=datetime.now())
+        r = Order(user=current_user, type=OrderType.DatHang, date=datetime.now(), status=OrderStatus.Waiting,
+                  payment=False)
         db.session.add(r)
         for c in cart.values():
             d = OrderDetails(quantity=c['quantity'], price=c['price'], order=r, book_id=c['id'])
@@ -102,7 +103,8 @@ def add_order(cart):
 
 def makepayment(cart):
     if cart:
-        r = Order(user=current_user, type=OrderType.ThanhToan)
+        r = Order(user=current_user, type=OrderType.ThanhToan, date=datetime.now(), status=OrderStatus.Success,
+                  payment=True)
         db.session.add(r)
         for c in cart.values():
             d = OrderDetails(quantity=c['quantity'], price=c['price'], order=r, book_id=c['id'])

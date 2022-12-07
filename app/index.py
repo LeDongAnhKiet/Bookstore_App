@@ -1,4 +1,3 @@
-import math
 
 from flask import render_template, request, redirect, session, jsonify
 from app import app, dao, admin, login, utils
@@ -14,6 +13,7 @@ def index():
                            kw=request.args.get('keyword'), page=page)
 
     return render_template('index.html', books=books)
+
 
 
 @app.route('/books/<int:book_id>')
@@ -240,7 +240,6 @@ def change_password():
 @login_required
 def load_order():
     orders = dao.load_order_history(current_user.id)
-
     return render_template('order-history.html', orders=orders)
 
 

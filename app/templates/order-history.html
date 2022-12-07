@@ -5,8 +5,10 @@
     <table class="table">
         <tr>
             <th>Mã Đơn Hàng</th>
-            <th>Ngày đặt hàng</th>
+            <th>Ngày thực hiện</th>
             <th>Phương thức</th>
+            <th>Tình trạng</th>
+            <th>Thanh toán</th>
             <th></th>
 
         </tr>
@@ -15,6 +17,16 @@
             <td>{{ i.id }}</td>
             <td>{{ i.date }}</td>
             <td>{{ i.type.value }}</td>
+            <td>{{ i.status.value }}</td>
+            {% if i.payment == True %}
+            <td>
+                Đã thanh toán
+            </td>
+            {% else %}
+            <td>
+                Chưa thanh toán
+            </td>
+            {% endif %}
             <td>
                 <a href="/order-history/{{i.id}}">Xem chi tiết</a>
             </td>
