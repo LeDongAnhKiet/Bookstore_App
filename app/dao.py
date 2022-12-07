@@ -136,17 +136,17 @@ def stats_revenue_by_book(kw=None, from_date=None, to_date=None):
 
 def load_order_history(user_id):
     u = User.query.get(user_id)
-    myorder = Order.query.join(User, User.id == Order.user_id).filter(Order.user_id == user_id).all()
-    for i in myorder:
+    my_order = Order.query.join(User, User.id == Order.user_id).filter(Order.user_id == user_id).all()
+    for i in my_order:
         if i.type == OrderType.DatHang and i.status == OrderStatus.Waiting:
             rs = (datetime.now() - i.date).days
             if rs > 2:
                 i.status = OrderStatus.Failure
                 db.session.commit()
-    return myorder
+    return my_order
 
 
-def load_orderdetails(od_id):
+def load_order_details(od_id):
     return Order.query.get(od_id)
 
 

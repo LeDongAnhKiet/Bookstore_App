@@ -37,6 +37,7 @@
       </div>
     </form>
     <canvas id="revenueStats"></canvas>
+    <canvas id="frequencyStats"></canvas>
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -49,19 +50,8 @@ let data = [], labels = [];
   {% endfor %}
   window.onload = function() {
     drawRevenueStats(labels, data)
-  }
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
-<script>
-let data = [], labels = [];
-  {% for s in stats %}
-    data.push({{ s[2] }})
-    labels.push('{{ s[1] }}')
-  {% endfor %}
-  window.onload = function() {
     drawFrequencyStats(labels, data)
   }
 </script>
+
 {% endblock %}

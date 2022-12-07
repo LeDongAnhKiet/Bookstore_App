@@ -104,7 +104,6 @@ class Order(BaseModel):
     OrderDetails = relationship('OrderDetails', backref='order', lazy=True)
 
 
-
 class OrderDetails(BaseModel):
     __tablename__ = 'OrderDetails'
 
@@ -112,7 +111,6 @@ class OrderDetails(BaseModel):
     price = Column(Float, default=0)
     book_id = Column(Integer, ForeignKey(Book.id), nullable=False)
     order_id = Column(Integer, ForeignKey(Order.id), nullable=False)
-
 
 
 if __name__ == '__main__':

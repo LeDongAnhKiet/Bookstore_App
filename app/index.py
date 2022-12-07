@@ -1,4 +1,3 @@
-
 from flask import render_template, request, redirect, session, jsonify
 from app import app, dao, admin, login, utils
 from flask_login import login_user, logout_user, login_required, current_user
@@ -13,7 +12,6 @@ def index():
                            kw=request.args.get('keyword'), page=page)
 
     return render_template('index.html', books=books)
-
 
 
 @app.route('/books/<int:book_id>')
@@ -186,7 +184,6 @@ def preorder():
     return jsonify({'status': 200})
 
 
-
 @app.route('/account')
 @login_required
 def account():
@@ -246,7 +243,7 @@ def load_order():
 @app.route('/order-history/<int:order_id>')
 @login_required
 def order_details(order_id):
-    p = dao.load_orderdetails(order_id)
+    p = dao.load_order_details(order_id)
     return render_template('orders.html', p=p)
 
 
