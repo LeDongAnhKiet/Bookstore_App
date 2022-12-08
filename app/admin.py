@@ -1,5 +1,5 @@
 from app import db, app, dao
-from app.models import Category, Book, UserRole
+from app.models import Category, Book, UserRole, RestockDetails, GoodsRestock, Order
 from flask_admin import Admin, BaseView, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask import redirect, request
@@ -50,6 +50,21 @@ class BookView(ModelView):
     }
 
 
+class RestockDetailsView(ModelView):
+    column_list = ()
+
+
+class GoodsRestockView(ModelView):
+    can_view_details = True
+    column_hide_backrefs = False
+    column_display_pk = True
+
+
+class OrderView(ModelView):
+    can_view_details = True
+
+
+
 class StatsView(AuthenticatedView):
     @expose('/')
     def index(self):
@@ -77,5 +92,8 @@ class AdminView(AdminIndexView):
 admin = Admin(app=app, name='Quản lý nhà sách', template_mode='bootstrap4', index_view=AdminView())
 admin.add_view(AuthenticatedModeView(Category, db.session, name='Danh mục'))
 admin.add_view(BookView(Book, db.session, name='Sách'))
+admin.add_view(RestockDetailsView(RestockDetails, db.session, name='Sách nhập'))
+admin.add_view(GoodsRestockView(GoodsRestock, db.session, name='phiếu nhập'))
+admin.add_view(OrderView(Order, db.session, name='Đơn Hàng'))
 admin.add_view(StatsView(name='Thống kê - báo cáo'))
 admin.add_view(LogoutView(name='Đăng xuất'))
