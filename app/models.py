@@ -35,6 +35,7 @@ class Category(BaseModel):
 
     name = Column(String(50), nullable=False, unique=True)
     Books = relationship('Book', backref='category', lazy=True)
+    OrderDetails = relationship('OrderDetails', backref='category', lazy=True)
 
     def __str__(self):
         return self.name
@@ -110,6 +111,7 @@ class OrderDetails(BaseModel):
     quantity = Column(Integer, default=0)
     price = Column(Float, default=0)
     book_id = Column(Integer, ForeignKey(Book.id), nullable=False)
+    category_id = Column(Integer, ForeignKey(Category.id), nullable=False)
     order_id = Column(Integer, ForeignKey(Order.id), nullable=False)
 
 

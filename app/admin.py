@@ -53,10 +53,11 @@ class BookView(ModelView):
 class StatsView(AuthenticatedView):
     @expose('/')
     def index(self):
-        stats = dao.stats_revenue_by_book(kw=request.args.get('kw'),
-                                          from_date=request.args.get('from_date'),
-                                          to_date=request.args.get('to_date'))
-        return self.render('admin/stats.html', stats=stats)
+        stats1 = dao.stats_revenue_by_cate(kw=request.args.get('kw'),
+                                           month=request.args.get('month'))
+        stats2 = dao.stats_frequency_by_book(kw=request.args.get('kw'),
+                                             month=request.args.get('month'))
+        return self.render('admin/stats.html', stats1=stats1, stats2=stats2)
 
 
 class LogoutView(AuthenticatedView):

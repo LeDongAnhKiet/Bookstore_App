@@ -100,7 +100,7 @@ def add_order(cart):
             return True
 
 
-def makepayment(cart):
+def make_payment(cart):
     if cart:
         r = Order(user=current_user, type=OrderType.ThanhToan, date=datetime.now(), status=OrderStatus.Success)
         db.session.add(r)
@@ -121,17 +121,26 @@ def count_book_by_cate():
         .group_by(Category.id).order_by(Category.name).all()
 
 
-def stats_revenue_by_book(kw=None, from_date=None, to_date=None):
-    query = db.session.query(Book.id, Book.name, func.sum(OrderDetails.quantity * OrderDetails.price)) \
+def stats_frequency_by_book(kw=None, month=None):
+    query = db.session.query(Book.id, Book.name, func.func.count(Book.id)) \
         .join(OrderDetails, OrderDetails.book_id.__eq__(Book.id)) \
         .join(Order, OrderDetails.order_id.__eq__(Order.id))
     if kw:
         query = query.filter(Book.name.contains(kw))
-    if from_date:
-        query = query.filter(Order.date.__ge__(from_date))
-    if to_date:
-        query = query.filter(Order.date.__le__(to_date))
-    return query.group_by(Book.id).all()
+    if month:
+        query = query.filter(Order.date.month.__eq__(month))
+    return query.group_by(Book.id).order_by(Book.name).all()
+
+
+def stats_revenue_by_cate(kw=None, month=None):
+    query = db.session.query(Category.id, Category.name, func.sum(OrderDetails.quantity * OrderDetails.price)) \
+        .join(OrderDetails, OrderDetails.category_id.__eq__(Category.id)) \
+        .join(Order, OrderDetails.order_id.__eq__(Order.id))
+    if kw:
+        query = query.filter(Category.name.contains(kw))
+    if month:
+        query = query.filter(Order.date.month.__eq__(month))
+    return query.group_by(Category.id).order_by(Category.name).all()
 
 
 def load_order_history(user_id):

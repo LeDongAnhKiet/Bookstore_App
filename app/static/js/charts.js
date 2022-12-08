@@ -30,7 +30,7 @@ function drawRevenueStats (labels, data) {
     data: {
       labels: labels,
       datasets: [{
-        label: 'Doanh thu theo tháng',
+//        label: 'Doanh thu theo tháng',
         data: data,
         borderWidth: 1,
         backgroundColor: ['red', 'blue', 'green', 'rgba(100, 200, 150, 0.8)']
@@ -53,7 +53,7 @@ function drawFrequencyStats (labels, data) {
     data: {
       labels: labels,
       datasets: [{
-        label: 'Tần suất sách bán',
+//        label: 'Tần suất sách bán',
         data: data,
         borderWidth: 1,
         backgroundColor: ['red', 'blue', 'green', 'rgba(100, 200, 150, 0.8)']

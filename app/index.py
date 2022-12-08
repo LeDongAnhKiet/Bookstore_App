@@ -162,7 +162,7 @@ def pay():
     key = app.config['CART_KEY']
     cart = session.get(key)
 
-    if dao.makepayment(cart=cart):
+    if dao.make_payment(cart=cart):
         del session[key]
     else:
         return jsonify({'status': 500})
