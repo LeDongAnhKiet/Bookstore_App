@@ -60,14 +60,18 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
 <script>
-let data = [], labels = [];
-  {% for s in stats %}
-    data.push({{ s[2] }})
-    labels.push('{{ s[1] }}')
+let data1 = [], labels1 = [], data2 = [], labels2 = [];
+  {% for s in stats1 %}
+    data1.push({{ s[2] }})
+    labels1.push('{{ s[1] }}')
+  {% endfor %}
+  {% for s in stats2 %}
+    data2.push({{ s[2] }})
+    labels2.push('{{ s[1] }}')
   {% endfor %}
   window.onload = function() {
-    drawRevenueStats(labels, data)
-    drawFrequencyStats(labels, data)
+    drawRevenueStats(labels1, data1)
+    drawFrequencyStats(labels2, data2)
   }
 </script>
 

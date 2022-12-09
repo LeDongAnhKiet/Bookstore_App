@@ -64,7 +64,6 @@ class OrderView(ModelView):
     can_view_details = True
 
 
-
 class StatsView(AuthenticatedView):
     @expose('/')
     def index(self):

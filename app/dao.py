@@ -122,7 +122,7 @@ def count_book_by_cate():
 
 
 def stats_frequency_by_book(kw=None, month=None):
-    query = db.session.query(Book.id, Book.name, func.func.count(Book.id)) \
+    query = db.session.query(Book.id, Book.name, func.count(Book.id)) \
         .join(OrderDetails, OrderDetails.book_id.__eq__(Book.id)) \
         .join(Order, OrderDetails.order_id.__eq__(Order.id))
     if kw:
@@ -134,7 +134,7 @@ def stats_frequency_by_book(kw=None, month=None):
 
 def stats_revenue_by_cate(kw=None, month=None):
     query = db.session.query(Category.id, Category.name, func.sum(OrderDetails.quantity * OrderDetails.price)) \
-        .join(OrderDetails, OrderDetails.category_id.__eq__(Category.id)) \
+        .join(OrderDetails, OrderDetails.book_id.__eq__(Book.id)) \
         .join(Order, OrderDetails.order_id.__eq__(Order.id))
     if kw:
         query = query.filter(Category.name.contains(kw))
