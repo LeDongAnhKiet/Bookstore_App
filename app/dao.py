@@ -129,18 +129,18 @@ def stats_frequency_by_book(kw=None, month=None):
         query = query.filter(Book.name.contains(kw))
     if month:
         query = query.filter(Order.date.month.__eq__(month))
-    return query.group_by(Book.id).order_by(Book.name).all()
+    return query.group_by(Book.id).all()
 
 
 def stats_revenue_by_cate(kw=None, month=None):
     query = db.session.query(Category.id, Category.name, func.sum(OrderDetails.quantity * OrderDetails.price)) \
-        .join(OrderDetails, OrderDetails.book_id.__eq__(Book.id)) \
+        .join(OrderDetails, OrderDetails.Book.category_id.__eq__(Book.category_id)) \
         .join(Order, OrderDetails.order_id.__eq__(Order.id))
     if kw:
         query = query.filter(Category.name.contains(kw))
     if month:
         query = query.filter(Order.date.month.__eq__(month))
-    return query.group_by(Category.id).order_by(Category.name).all()
+    return query.group_by(Category.id).all()
 
 
 def load_order_history(user_id):
