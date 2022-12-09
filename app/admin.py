@@ -1,3 +1,6 @@
+from flask_admin.contrib.sqla.validators import ItemsRequired
+from flask_admin.form import rules
+
 from app import db, app, dao
 from app.models import Category, Book, UserRole, RestockDetails, GoodsRestock, Order
 from flask_admin import Admin, BaseView, expose, AdminIndexView
@@ -31,7 +34,7 @@ class CKTextAreaField(TextAreaField):
     widget = CKTextAreaWidget()
 
 
-class BookView(ModelView):
+class BookView(AuthenticatedModeView):
     column_searchable_list = ['name', 'description']
     column_filters = ['name', 'price']
     can_view_details = True
@@ -50,18 +53,19 @@ class BookView(ModelView):
     }
 
 
-class RestockDetailsView(ModelView):
+class RestockDetailsView(AuthenticatedModeView):
     column_list = ()
+    form_args = {
+        "quantity": {"validators": [ItemsRequired(min=150)]}
+    }
 
 
-class GoodsRestockView(ModelView):
+
+
+class GoodsRestockView(AuthenticatedModeView):
     can_view_details = True
     column_hide_backrefs = False
     column_display_pk = True
-
-
-class OrderView(ModelView):
-    can_view_details = True
 
 
 class StatsView(AuthenticatedView):
@@ -93,6 +97,5 @@ admin.add_view(AuthenticatedModeView(Category, db.session, name='Danh mục'))
 admin.add_view(BookView(Book, db.session, name='Sách'))
 admin.add_view(RestockDetailsView(RestockDetails, db.session, name='Sách nhập'))
 admin.add_view(GoodsRestockView(GoodsRestock, db.session, name='phiếu nhập'))
-admin.add_view(OrderView(Order, db.session, name='Đơn Hàng'))
 admin.add_view(StatsView(name='Thống kê - báo cáo'))
 admin.add_view(LogoutView(name='Đăng xuất'))
