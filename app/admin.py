@@ -1,7 +1,6 @@
-from flask_admin.contrib.sqla.validators import ItemsRequired
-from flask_admin.form import rules
+from wtforms.validators import InputRequired, NumberRange
 
-from app import db, app, dao
+from app import db, app, dao, RestockNumber
 from app.models import Category, Book, UserRole, RestockDetails, GoodsRestock, Order
 from flask_admin import Admin, BaseView, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
@@ -55,8 +54,9 @@ class BookView(AuthenticatedModeView):
 
 class RestockDetailsView(AuthenticatedModeView):
     column_list = ()
+    # validator wtforms
     form_args = {
-        "quantity": {"validators": [ItemsRequired(min=150)]}
+        "quantity": {"validators": [InputRequired(), NumberRange(min=RestockNumber)]},
     }
 
 

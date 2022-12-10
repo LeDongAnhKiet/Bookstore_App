@@ -2,7 +2,7 @@ from datetime import datetime
 
 from flask_login import current_user
 from app.models import Category, Book, User, Order, OrderDetails, TypeofCreator, OrderType, OrderStatus
-from app import db, app
+from app import db, app, CancelTimer
 from sqlalchemy import func
 import hashlib
 
@@ -147,9 +147,9 @@ def load_order_history(user_id):
     u = User.query.get(user_id)
     my_order = Order.query.join(User, User.id == Order.user_id).filter(Order.user_id == user_id).all()
     for i in my_order:
-        if i.type == OrderType.DatHang and i.status == OrderStatus.Waiting:
-            rs = (datetime.now() - i.date).days
-            if rs > 2:
+        if i.type == OrderStatus.Success or (i.type == OrderType.DatHang and i.status == OrderStatus.Waiting):
+            rs = (datetime.now() - i.date).hour
+            if rs > CancelTimer:
                 i.status = OrderStatus.Failure
                 db.session.commit()
     return my_order

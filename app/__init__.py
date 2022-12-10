@@ -17,6 +17,9 @@ login = LoginManager(app=app)
 login.login_view = '/login'
 babel = Babel(app=app)
 
+RestockNumber = 150
+InStockNumber = 300
+CancelTimer = 48
 
 @babel.localeselector
 def load_locale():
