@@ -60,8 +60,6 @@ class RestockDetailsView(AuthenticatedModeView):
     }
 
 
-
-
 class GoodsRestockView(AuthenticatedModeView):
     can_view_details = True
     column_hide_backrefs = False

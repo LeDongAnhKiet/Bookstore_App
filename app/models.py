@@ -133,37 +133,37 @@ class RestockDetails(BaseModel):
 
 if __name__ == '__main__':
     with app.app_context():
-        # db.create_all()
-        # c1 = Category(name='Sách giáo khoa')
-        # c2 = Category(name='Ngoại ngữ')
-        # c3 = Category(name='Khoa học')
-        # c4 = Category(name='Văn học - tiểu thuyết')
-        #
-        # db.session.add_all([c1, c2, c3, c4])
-        # db.session.commit()
-        #
-        # password = str(hashlib.md5('123456'.encode('utf-8')).hexdigest())
-        # u = User(name='Duong', username='admin', password=password, user_role=UserRole.ADMIN)
-        # db.session.add(u)
-        # db.session.commit()
-        #
-        # d1 = TypeofCreator(name='Tác giả')
-        # d2 = TypeofCreator(name='Minh họa')
-        # d3 = TypeofCreator(name='Nhà cung cấp')
-        #
-        # a1 = Creator(name='Robert Cecil Martin', type_id=1)
-        # a2 = Creator(name='Alice Schroeder', type_id=1)
-        # a3 = Creator(name='Marry Buffet', type_id=1)
-        # a4 = Creator(name='Sean Seah', type_id=1)
-        # a5 = Creator(name='Mai Lan Hương', type_id=1)
-        # a6 = Creator(name='Hà Thanh Uyên', type_id=1)
-        # a7 = Creator(name='Bộ Giáo Dục Và Đào Tạo', type_id=1)
-        # a8 = Creator(name='Mishima Yomu', type_id=1)
-        # a9 = Creator(name='Monda', type_id=2)
-        # db.session.add_all([d1, d2, d3])
-        # db.session.commit()
-        #
-        # db.session.add_all([a1, a2, a3, a4, a5, a6, a7, a8, a9])
+        db.create_all()
+        c1 = Category(name='Sách giáo khoa')
+        c2 = Category(name='Ngoại ngữ')
+        c3 = Category(name='Khoa học')
+        c4 = Category(name='Văn học - tiểu thuyết')
+
+        db.session.add_all([c1, c2, c3, c4])
+        db.session.commit()
+
+        password = str(hashlib.md5('123456'.encode('utf-8')).hexdigest())
+        u = User(name='Duong', username='admin', password=password, user_role=UserRole.ADMIN)
+        db.session.add(u)
+        db.session.commit()
+
+        d1 = TypeofCreator(name='Tác giả')
+        d2 = TypeofCreator(name='Minh họa')
+        d3 = TypeofCreator(name='Nhà cung cấp')
+
+        a1 = Creator(name='Robert Cecil Martin', type_id=1)
+        a2 = Creator(name='Alice Schroeder', type_id=1)
+        a3 = Creator(name='Marry Buffet', type_id=1)
+        a4 = Creator(name='Sean Seah', type_id=1)
+        a5 = Creator(name='Mai Lan Hương', type_id=1)
+        a6 = Creator(name='Hà Thanh Uyên', type_id=1)
+        a7 = Creator(name='Bộ Giáo Dục Và Đào Tạo', type_id=1)
+        a8 = Creator(name='Mishima Yomu', type_id=1)
+        a9 = Creator(name='Monda', type_id=2)
+        db.session.add_all([d1, d2, d3])
+        db.session.commit()
+
+        db.session.add_all([a1, a2, a3, a4, a5, a6, a7, a8, a9])
         db.session.commit()
 
         b1 = Book(name='Clean Code', price=299000, image='https://cdn0.fahasa.com/media/catalog/product/3/9/393129.jpg',

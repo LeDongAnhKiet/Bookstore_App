@@ -134,8 +134,8 @@ def stats_frequency_by_book(kw=None, month=None):
 
 def stats_revenue_by_cate(kw=None, month=None):
     query = db.session.query(Category.id, Category.name, func.sum(OrderDetails.quantity * OrderDetails.price)) \
-        .join(OrderDetails, OrderDetails.Book.category_id.__eq__(Book.category_id)) \
-        .join(Order, OrderDetails.order_id.__eq__(Order.id))
+        .join(Book, OrderDetails.book_id.__eq__(Book.id)) \
+        .join(Category, Book.category_id.__eq__(Category.id))
     if kw:
         query = query.filter(Category.name.contains(kw))
     if month:
@@ -163,4 +163,6 @@ if __name__ == '__main__':
     from app import app
 
     with app.app_context():
+        print(stats_revenue_by_cate())
+        print(stats_frequency_by_book())
         print(count_book_by_cate())
