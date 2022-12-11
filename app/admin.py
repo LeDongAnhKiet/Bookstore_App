@@ -1,6 +1,6 @@
 from wtforms.validators import InputRequired, NumberRange
 
-from app import db, app, dao, RestockNumber
+from app import db, app, dao, Rules
 from app.models import Category, Book, UserRole, RestockDetails, GoodsRestock, Order
 from flask_admin import Admin, BaseView, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
@@ -56,7 +56,8 @@ class RestockDetailsView(AuthenticatedModeView):
     column_list = ()
     # validator wtforms
     form_args = {
-        "quantity": {"validators": [InputRequired(), NumberRange(min=RestockNumber)]},
+        "quantity": {"validators": [InputRequired(), NumberRange(min=Rules.get('RestockNumber'))]},
+        "Book": {"query_factory": lambda: Book.query.filter(Book.quantity < Rules.get('InStockNumber'))}
     }
 
 
@@ -64,6 +65,7 @@ class GoodsRestockView(AuthenticatedModeView):
     can_view_details = True
     column_hide_backrefs = False
     column_display_pk = True
+
 
 
 class StatsView(AuthenticatedView):
