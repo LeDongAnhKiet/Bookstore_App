@@ -30,6 +30,12 @@ class BaseModel(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
 
+class BookstoreRule(BaseModel):
+    name = Column(String(50), nullable=False, unique=True)
+    value = Column(Integer, nullable=False)
+    description = Column(String(150), nullable=True)
+
+
 class Category(BaseModel):
     __tablename__ = 'Category'
 
@@ -134,6 +140,12 @@ class RestockDetails(BaseModel):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
+
+        a1 = BookstoreRule(name='RestockNumber', value=150, description='Quy định về giới hạn số lượng nhập sách')
+        a2 = BookstoreRule(name='InstockNumber', value=300, description='Quy định về sách đang thiếu hàng')
+        a3 = BookstoreRule(name='CancelOrder', value=48, description='Thời gian để nhận sách khi đặt hàng trước')
+        db.session.add_all([a1, a2, a3])
+        db.session.commit()
         c1 = Category(name='Sách giáo khoa')
         c2 = Category(name='Ngoại ngữ')
         c3 = Category(name='Khoa học')
@@ -190,3 +202,15 @@ if __name__ == '__main__':
                   quantity=0, category_id=4)
         db.session.add_all([b1, b2, b3, b4, b5, b6])
         db.session.commit()
+        db.session.add_all([b1, b2, b3, b4, b5, b6])
+        db.session.commit()
+        db.session.add_all([b1, b2, b3, b4, b5, b6])
+        db.session.commit()
+        db.session.add_all([b1, b2, b3, b4, b5, b6])
+        db.session.commit()
+        db.session.add_all([b1, b2, b3, b4, b5, b6])
+        db.session.commit()
+        db.session.add_all([b1, b2, b3, b4, b5, b6])
+        db.session.commit()
+
+

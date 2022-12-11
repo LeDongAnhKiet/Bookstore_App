@@ -1,8 +1,8 @@
 from datetime import datetime
 
 from flask_login import current_user
-from app.models import Category, Book, User, Order, OrderDetails, TypeofCreator, OrderType, OrderStatus
-from app import db, app, Rules
+from app.models import Category, Book, User, Order, OrderDetails, TypeofCreator, OrderType, OrderStatus, BookstoreRule
+from app import db, app
 from sqlalchemy import func
 import hashlib
 
@@ -34,6 +34,16 @@ def count_books():
 def get_book_by_id(book_id):
     return Book.query.get(book_id)
 
+
+def get_RestockNumber():
+    return BookstoreRule.query.get(1)
+
+
+def get_InstockNumber():
+    return BookstoreRule.query.get(2)
+
+def get_CancelOrder():
+    return BookstoreRule.query.get(3)
 
 def load_book_has_same_cate(book_id):
     b = Book.query.get(book_id)
@@ -148,8 +158,9 @@ def load_order_history(user_id):
     my_order = Order.query.join(User, User.id == Order.user_id).filter(Order.user_id == user_id).all()
     for i in my_order:
         if i.type == OrderStatus.Success or (i.type == OrderType.DatHang and i.status == OrderStatus.Waiting):
-            rs = (datetime.now() - i.date).hour
-            if rs > Rules.get('CancelTimer'):
+            rs = (datetime.now() - i.date)
+            rs = rs.days * 24 + rs.seconds
+            if rs > get_CancelOrder().value:
                 i.status = OrderStatus.Failure
                 db.session.commit()
     return my_order
@@ -166,3 +177,4 @@ if __name__ == '__main__':
         print(stats_revenue_by_cate())
         print(stats_frequency_by_book())
         print(count_book_by_cate())
+

@@ -1,7 +1,7 @@
 from wtforms.validators import InputRequired, NumberRange
 
-from app import db, app, dao, Rules
-from app.models import Category, Book, UserRole, RestockDetails, GoodsRestock, Order
+from app import db, app, dao
+from app.models import Category, Book, UserRole, RestockDetails, GoodsRestock, BookstoreRule
 from flask_admin import Admin, BaseView, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask import redirect, request
@@ -33,6 +33,15 @@ class CKTextAreaField(TextAreaField):
     widget = CKTextAreaWidget()
 
 
+class BookstoreRuleView(AuthenticatedModeView):
+    column_list = ()
+    can_create = False
+    can_delete = False
+    column_descriptions = {
+        'name': "Thông tin"
+    }
+
+
 class BookView(AuthenticatedModeView):
     column_searchable_list = ['name', 'description']
     column_filters = ['name', 'price']
@@ -45,7 +54,6 @@ class BookView(AuthenticatedModeView):
         'description': 'Mô tả',
         'price': 'Giá'
     }
-    page_size = 5
     extra_js = ['//cdn.ckeditor.com/4.6.0/standard/ckeditor.js']
     form_overrides = {
         'description': CKTextAreaField
@@ -56,8 +64,8 @@ class RestockDetailsView(AuthenticatedModeView):
     column_list = ()
     # validator wtforms
     form_args = {
-        "quantity": {"validators": [InputRequired(), NumberRange(min=Rules.get('RestockNumber'))]},
-        "Book": {"query_factory": lambda: Book.query.filter(Book.quantity < Rules.get('InStockNumber'))}
+        "quantity": {"validators": [InputRequired(), NumberRange(min=150)]},
+        "Book": {"query_factory": lambda: Book.query.filter(Book.quantity < 300)}
     }
 
 
@@ -65,7 +73,6 @@ class GoodsRestockView(AuthenticatedModeView):
     can_view_details = True
     column_hide_backrefs = False
     column_display_pk = True
-
 
 
 class StatsView(AuthenticatedView):
@@ -97,5 +104,6 @@ admin.add_view(AuthenticatedModeView(Category, db.session, name='Danh mục'))
 admin.add_view(BookView(Book, db.session, name='Sách'))
 admin.add_view(RestockDetailsView(RestockDetails, db.session, name='Sách nhập'))
 admin.add_view(GoodsRestockView(GoodsRestock, db.session, name='phiếu nhập'))
+admin.add_view(BookstoreRuleView(BookstoreRule, db.session, name='Quy định'))
 admin.add_view(StatsView(name='Thống kê - báo cáo'))
 admin.add_view(LogoutView(name='Đăng xuất'))
