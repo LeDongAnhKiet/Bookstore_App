@@ -42,8 +42,10 @@ def get_RestockNumber():
 def get_InstockNumber():
     return BookstoreRule.query.get(2)
 
+
 def get_CancelOrder():
     return BookstoreRule.query.get(3)
+
 
 def load_book_has_same_cate(book_id):
     b = Book.query.get(book_id)
@@ -132,24 +134,26 @@ def count_book_by_cate():
 
 
 def stats_frequency_by_book(kw=None, month=None):
-    query = db.session.query(Book.id, Book.name, func.count(Book.id)) \
+    query = db.session.query(Book.id, Book.name, Category.name, func.count(Order.id)) \
         .join(OrderDetails, OrderDetails.book_id.__eq__(Book.id)) \
-        .join(Order, OrderDetails.order_id.__eq__(Order.id))
+        .join(Order, OrderDetails.order_id.__eq__(Order.id)) \
+        .join(Category, Book.category_id.__eq__(Category.id), isouter=True)
     if kw:
         query = query.filter(Book.name.contains(kw))
     if month:
-        query = query.filter(Order.date.month.__eq__(month))
-    return query.group_by(Book.id).all()
+        query = query.filter(month(Order.date).__eq__(month))
+    return query.group_by(Book.id).order_by(Book.id).all()
 
 
 def stats_revenue_by_cate(kw=None, month=None):
-    query = db.session.query(Category.id, Category.name, func.sum(OrderDetails.quantity * OrderDetails.price)) \
-        .join(Book, OrderDetails.book_id.__eq__(Book.id)) \
+    query = db.session.query(Category.id, Category.name,
+                             func.sum(OrderDetails.quantity * OrderDetails.price), func.count(Book.id)) \
+        .join(OrderDetails, OrderDetails.book_id.__eq__(Book.id)) \
         .join(Category, Book.category_id.__eq__(Category.id))
     if kw:
         query = query.filter(Category.name.contains(kw))
     if month:
-        query = query.filter(Order.date.month.__eq__(month))
+        query = query.filter(month(Order.date).__eq__(month))
     return query.group_by(Category.id).all()
 
 
@@ -176,5 +180,4 @@ if __name__ == '__main__':
     with app.app_context():
         print(stats_revenue_by_cate())
         print(stats_frequency_by_book())
-        print(count_book_by_cate())
-
+        # print(count_book_by_cate())

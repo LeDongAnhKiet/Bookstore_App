@@ -78,10 +78,10 @@ class GoodsRestockView(AuthenticatedModeView):
 class StatsView(AuthenticatedView):
     @expose('/')
     def index(self):
-        stats1 = dao.stats_revenue_by_cate(kw=request.args.get('kw'),
-                                           month=request.args.get('month'))
-        stats2 = dao.stats_frequency_by_book(kw=request.args.get('kw'),
-                                             month=request.args.get('month'))
+        stats1 = dao.stats_revenue_by_cate(kw=request.args.get('kw1'),
+                                           month=request.args.get('month1'))
+        stats2 = dao.stats_frequency_by_book(kw=request.args.get('kw2'),
+                                             month=request.args.get('month2'))
         return self.render('admin/stats.html', stats1=stats1, stats2=stats2)
 
 

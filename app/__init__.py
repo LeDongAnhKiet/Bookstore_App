@@ -6,8 +6,8 @@ from flask_babelex import Babel
 import cloudinary
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:%s@localhost:3306/bookstoreDb?charset=utf8mb4' % quote(
-    'duong1')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:%s@localhost:3306/bookstoredb?charset=utf8mb4' \
+                                            % quote('1234')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['CART_KEY'] = 'cart'
 app.secret_key = '%@di219ask2139askjiusaf'
@@ -16,6 +16,7 @@ cloudinary.config(cloud_name='dmfr3gngl', api_key='119749293867732', api_secret=
 login = LoginManager(app=app)
 login.login_view = '/login'
 babel = Babel(app=app)
+
 
 @babel.localeselector
 def load_locale():

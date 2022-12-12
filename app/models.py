@@ -155,8 +155,10 @@ if __name__ == '__main__':
         db.session.commit()
 
         password = str(hashlib.md5('123456'.encode('utf-8')).hexdigest())
-        u = User(name='Duong', username='admin', password=password, user_role=UserRole.ADMIN)
-        db.session.add(u)
+        u1 = User(name='Duong', username='admin1', password=password, user_role=UserRole.ADMIN)
+        u2 = User(name='Kiệt', username='admin2', password=password, user_role=UserRole.ADMIN)
+        u3 = User(name='User', username='user', password=password, user_role=UserRole.Customer)
+        db.session.add_all([u1, u2, u3])
         db.session.commit()
 
         d1 = TypeofCreator(name='Tác giả')
@@ -212,5 +214,3 @@ if __name__ == '__main__':
         db.session.commit()
         db.session.add_all([b1, b2, b3, b4, b5, b6])
         db.session.commit()
-
-
