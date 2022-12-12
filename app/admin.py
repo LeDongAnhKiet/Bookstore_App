@@ -10,6 +10,7 @@ from wtforms import TextAreaField
 from wtforms.widgets import TextArea
 
 
+
 class AuthenticatedModeView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.user_role == UserRole.ADMIN
@@ -67,12 +68,15 @@ class RestockDetailsView(AuthenticatedModeView):
         "quantity": {"validators": [InputRequired(), NumberRange(min=150)]},
         "Book": {"query_factory": lambda: Book.query.filter(Book.quantity < 300)}
     }
+    column_filters = ['restock_id']
 
 
 class GoodsRestockView(AuthenticatedModeView):
     can_view_details = True
     column_hide_backrefs = False
     column_display_pk = True
+
+
 
 
 class StatsView(AuthenticatedView):

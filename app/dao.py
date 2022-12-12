@@ -161,9 +161,9 @@ def load_order_history(user_id):
     u = User.query.get(user_id)
     my_order = Order.query.join(User, User.id == Order.user_id).filter(Order.user_id == user_id).all()
     for i in my_order:
-        if i.type == OrderStatus.Success or (i.type == OrderType.DatHang and i.status == OrderStatus.Waiting):
+        if i.type == OrderType.DatHang and i.status == OrderStatus.Waiting:
             rs = (datetime.now() - i.date)
-            rs = rs.days * 24 + rs.seconds
+            rs = rs.days * 24 + rs.seconds / 3600
             if rs > get_CancelOrder().value:
                 i.status = OrderStatus.Failure
                 db.session.commit()
