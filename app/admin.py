@@ -42,6 +42,7 @@ class BookstoreRuleView(AuthenticatedModeView):
     }
 
 
+
 class BookView(AuthenticatedModeView):
     column_searchable_list = ['name', 'description']
     column_filters = ['name', 'price']
@@ -60,20 +61,25 @@ class BookView(AuthenticatedModeView):
     }
 
 
-class RestockDetailsView(AuthenticatedModeView):
+class RestockDetailsView(ModelView):
     column_list = ()
     # validator wtforms
     form_args = {
         "quantity": {"validators": [InputRequired(), NumberRange(min=150)]},
         "Book": {"query_factory": lambda: Book.query.filter(Book.quantity < 300)}
     }
-    column_filters = ['restock_id']
+    column_filters = ['restock_id', 'quantity', 'Book.name']
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.user_role == UserRole.InventoryManagement
 
 
-class GoodsRestockView(AuthenticatedModeView):
+
+class GoodsRestockView(ModelView):
     can_view_details = True
-    column_hide_backrefs = False
-    column_display_pk = True
+    column_filters = ['isConfirm']
+
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.user_role == UserRole.InventoryManagement
 
 
 class StatsView(AuthenticatedView):

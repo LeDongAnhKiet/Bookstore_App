@@ -21,6 +21,7 @@ class OrderStatus(enum.Enum):
 class UserRole(enum.Enum):
     Customer = 1
     ADMIN = 2
+    InventoryManagement = 3
 
 
 class BaseModel(db.Model):
@@ -154,6 +155,7 @@ if __name__ == '__main__':
         a3 = BookstoreRule(name='CancelOrder', value=48, description='Thời gian để nhận sách khi đặt hàng trước')
         db.session.add_all([a1, a2, a3])
         db.session.commit()
+
         c1 = Category(name='Sách giáo khoa')
         c2 = Category(name='Ngoại ngữ')
         c3 = Category(name='Khoa học')
@@ -164,14 +166,14 @@ if __name__ == '__main__':
 
         password = str(hashlib.md5('123456'.encode('utf-8')).hexdigest())
         u1 = User(name='Duong', username='admin1', password=password, user_role=UserRole.ADMIN)
-        u2 = User(name='Kiệt', username='admin2', password=password, user_role=UserRole.ADMIN)
+        u2 = User(name='Kiệt', username='admin2', password=password, user_role=UserRole.InventoryManagement)
         u3 = User(name='User', username='user', password=password, user_role=UserRole.Customer)
         db.session.add_all([u1, u2, u3])
         db.session.commit()
 
         d1 = TypeofCreator(name='Tác giả')
         d2 = TypeofCreator(name='Minh họa')
-        d3 = TypeofCreator(name='Nhà cung cấp')
+        d3 = TypeofCreator(name='Dịch giả')
 
         a1 = Creator(name='Robert Cecil Martin', type_id=1)
         a2 = Creator(name='Alice Schroeder', type_id=1)
@@ -210,15 +212,83 @@ if __name__ == '__main__':
         b6 = Book(name='Thế Giới Otome Game Thật Khắc Nghiệt Với Nhân Vật Quần Chúng', price=120000,
                   image='https://cdn0.fahasa.com/media/catalog/product/6/0/600_nh-s_ch-th_-gi_i-otome-game...-5_2.jpg',
                   quantity=0, category_id=4)
+        b1.creators.append(a1)
+        b2.creators.append(a2)
+        b3.creators.append(a3)
+        b3.creators.append(a4)
+        b4.creators.append(a5)
+        b4.creators.append(a6)
+        b5.creators.append(a7)
+        b6.creators.append(a8)
+        b6.creators.append(a9)
         db.session.add_all([b1, b2, b3, b4, b5, b6])
         db.session.commit()
+        b1 = Book(name='Clean Code', price=299000, image='https://cdn0.fahasa.com/media/catalog/product/3/9/393129.jpg',
+                  quantity=200, category_id=3)
+
+        b2 = Book(name='Cuộc Đời Và Sự Nghiệp Của Warren Buffett', price=529000,
+                  image='https://cdn0.fahasa.com/media/catalog/product/z/2/z2347757265330_74b3b3541a95b12454cbde947ccc635e.jpg',
+                  quantity=300, category_id=4)
+
+        b3 = Book(name='7 Phương Pháp Đầu Tư Warren Buffet', price=143000,
+                  image='https://cdn0.fahasa.com/media/catalog/product/8/9/8936066694131.jpg',
+                  quantity=300, category_id=4)
+
+        b4 = Book(name='Giải Thích Ngữ Pháp Tiếng Anh ', price=139000,
+                  image='https://cdn0.fahasa.com/media/catalog/product/z/3/z3097453775918_7ea22457f168a4de92d0ba8178a2257b.jpg'
+                  , quantity=300, category_id=2)
+
+        b5 = Book(name='Sách Giáo Khoa Bộ Lớp 12', price=180000,
+                  image='https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015422-1.jpg'
+                  , quantity=300, category_id=1)
+
+        b6 = Book(name='Thế Giới Otome Game Thật Khắc Nghiệt Với Nhân Vật Quần Chúng', price=120000,
+                  image='https://cdn0.fahasa.com/media/catalog/product/6/0/600_nh-s_ch-th_-gi_i-otome-game...-5_2.jpg',
+                  quantity=0, category_id=4)
+        b1.creators.append(a1)
+        b2.creators.append(a2)
+        b3.creators.append(a3)
+        b3.creators.append(a4)
+        b4.creators.append(a5)
+        b4.creators.append(a6)
+        b5.creators.append(a7)
+        b6.creators.append(a8)
+        b6.creators.append(a9)
         db.session.add_all([b1, b2, b3, b4, b5, b6])
         db.session.commit()
+
+        b1 = Book(name='Clean Code', price=299000, image='https://cdn0.fahasa.com/media/catalog/product/3/9/393129.jpg',
+                  quantity=200, category_id=3)
+
+        b2 = Book(name='Cuộc Đời Và Sự Nghiệp Của Warren Buffett', price=529000,
+                  image='https://cdn0.fahasa.com/media/catalog/product/z/2/z2347757265330_74b3b3541a95b12454cbde947ccc635e.jpg',
+                  quantity=300, category_id=4)
+
+        b3 = Book(name='7 Phương Pháp Đầu Tư Warren Buffet', price=143000,
+                  image='https://cdn0.fahasa.com/media/catalog/product/8/9/8936066694131.jpg',
+                  quantity=300, category_id=4)
+
+        b4 = Book(name='Giải Thích Ngữ Pháp Tiếng Anh ', price=139000,
+                  image='https://cdn0.fahasa.com/media/catalog/product/z/3/z3097453775918_7ea22457f168a4de92d0ba8178a2257b.jpg'
+                  , quantity=300, category_id=2)
+
+        b5 = Book(name='Sách Giáo Khoa Bộ Lớp 12', price=180000,
+                  image='https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015422-1.jpg'
+                  , quantity=300, category_id=1)
+
+        b6 = Book(name='Thế Giới Otome Game Thật Khắc Nghiệt Với Nhân Vật Quần Chúng', price=120000,
+                  image='https://cdn0.fahasa.com/media/catalog/product/6/0/600_nh-s_ch-th_-gi_i-otome-game...-5_2.jpg',
+                  quantity=0, category_id=4)
+        b1.creators.append(a1)
+        b2.creators.append(a2)
+        b3.creators.append(a3)
+        b3.creators.append(a4)
+        b4.creators.append(a5)
+        b4.creators.append(a6)
+        b5.creators.append(a7)
+        b6.creators.append(a8)
+        b6.creators.append(a9)
         db.session.add_all([b1, b2, b3, b4, b5, b6])
         db.session.commit()
-        db.session.add_all([b1, b2, b3, b4, b5, b6])
-        db.session.commit()
-        db.session.add_all([b1, b2, b3, b4, b5, b6])
-        db.session.commit()
-        db.session.add_all([b1, b2, b3, b4, b5, b6])
-        db.session.commit()
+
+

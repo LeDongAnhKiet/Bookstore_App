@@ -35,18 +35,6 @@ def get_book_by_id(book_id):
     return Book.query.get(book_id)
 
 
-def get_RestockNumber():
-    return BookstoreRule.query.get(1)
-
-
-def get_InstockNumber():
-    return BookstoreRule.query.get(2)
-
-
-def get_CancelOrder():
-    return BookstoreRule.query.get(3)
-
-
 def load_book_has_same_cate(book_id):
     b = Book.query.get(book_id)
     # return Book.query.join(Category, Book.category_id==Category.id)\
@@ -168,7 +156,7 @@ def load_order_history(user_id):
         if i.type == OrderType.DatHang and i.status == OrderStatus.Waiting:
             rs = (datetime.now() - i.date)
             rs = rs.days * 24 + rs.seconds / 3600
-            if rs > get_CancelOrder().value:
+            if rs > 48:
                 i.status = OrderStatus.Failure
                 db.session.commit()
     return my_order
@@ -195,3 +183,4 @@ if __name__ == '__main__':
         print(stats_revenue_by_cate())
         print(stats_frequency_by_book())
         # print(count_book_by_cate())
+
