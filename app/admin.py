@@ -10,7 +10,6 @@ from wtforms import TextAreaField
 from wtforms.widgets import TextArea
 
 
-
 class AuthenticatedModeView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.user_role == UserRole.ADMIN
@@ -77,15 +76,15 @@ class GoodsRestockView(AuthenticatedModeView):
     column_display_pk = True
 
 
-
-
 class StatsView(AuthenticatedView):
     @expose('/')
     def index(self):
         stats1 = dao.stats_revenue_by_cate(kw=request.args.get('kw1'),
-                                           month=request.args.get('month1'))
+                                           from_date=request.args.get('from_date1'),
+                                           to_date=request.args.get('to_date1'))
         stats2 = dao.stats_frequency_by_book(kw=request.args.get('kw2'),
-                                             month=request.args.get('month2'))
+                                             from_date=request.args.get('from_date2'),
+                                             to_date=request.args.get('to_date2'))
         return self.render('admin/stats.html', stats1=stats1, stats2=stats2)
 
 
