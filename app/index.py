@@ -52,5 +52,9 @@ def common_attribute():
     }
 
 
+app.add_url_rule('/api/books/<int:books_id>/comments', 'comment-list', controllers.comments)
+app.add_url_rule('/api/books/<int:books_id>/comments', 'comment-add', controllers.add_comment, methods=['post'])
+
+
 if __name__ == '__main__':
     app.run(debug=True)

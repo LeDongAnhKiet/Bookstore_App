@@ -73,6 +73,7 @@ class Book(BaseModel):
     creators = relationship('Creator', secondary='book_creator', lazy='subquery', backref=backref('book', lazy=True))
     order_details = relationship('OrderDetails', backref='Book', lazy=True)
     restock_details = relationship('RestockDetails', backref='Book', lazy=True)
+    comments = relationship('Comment', backref='Book', lazy=True)
 
     def __str__(self):
         return self.name
@@ -90,12 +91,13 @@ class Creator(BaseModel):
 
 class User(BaseModel, UserMixin):
     name = Column(String(50), nullable=False)
-    username = Column(String(50), nullable=False)
+    username = Column(String(50), nullable=False, unique=True)
     password = Column(String(50), nullable=False)
     user_role = Column(Enum(UserRole), default=UserRole.Customer)
     phone = Column(String(15), nullable=True)
     address = Column(String(100), nullable=True)
     order = relationship('Order', backref='user', lazy=True)
+    comments = relationship('Comment', backref='user', lazy=True)
 
     def __str__(self):
         return self.name
@@ -135,6 +137,13 @@ class RestockDetails(BaseModel):
     price = Column(Float, default=0)
     book_id = Column(Integer, ForeignKey(Book.id), nullable=False)
     restock_id = Column(Integer, ForeignKey(GoodsRestock.id))
+
+
+class Comment(BaseModel):
+    content = Column(String(255), nullable=False)
+    created_date = Column(DateTime, default=datetime.now())
+    user_id = Column(Integer, ForeignKey(User.id), nullable=False)
+    book_id = Column(Integer, ForeignKey(Book.id), nullable=False)
 
 
 if __name__ == '__main__':

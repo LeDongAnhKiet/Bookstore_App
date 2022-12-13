@@ -2,6 +2,7 @@
 
 {% block content %}
 {% if book %}
+<h1 class="text-center text-success">CHI TIẾT SÁCH</h1>
 <div class="row justify-content-center px-3">
     <div class="col-md-6">
         <div class="main-img">
@@ -59,7 +60,7 @@
 
             <div class="d-flex py-5">
                 <div class="block me-2">
-                    <a href="javascript:;" onclick="addToCart({{book.id}}, '{{book.name}}', {{book.price}}  )"
+                    <a href="javascript:;" onclick="addToCart({{ book.id }}, '{{ book.name }}', {{ book.price }})"
                        class="btn btn-info"><i class="fa-solid fa-cart-plus"></i> Đặt hàng</a>
                 </div>
             </div>
@@ -68,7 +69,7 @@
 </div>
 <div class="container my-5">
     <hr>
-    <h1 class="d-flex justify-content-center">Similar Books</h1>
+    <h1 class="d-flex justify-content-center">Sách tương tự</h1>
     <div class="row">
         {% for i in books %}
         <div class="col-md-3">
@@ -83,5 +84,31 @@
         {% endfor %}
     </div>
 </div>
+<hr>
+{% if current_user.is_authenticated %}
+<div>
+    <div class="form-group">
+        <textarea id="comment-content" class="form-control" placeholder="Nội dung bình luận"></textarea>
+    </div>
+    <div class="m-2">
+        <input type="button" onclick="addComment({{ book.id }})" value="Thêm bình luận" class="btn btn-info" />
+    </div>
+</div>
+{% else %}
+<p>Vui lòng <a href="/login?next=/books/{{ book.id }}">đăng nhập</a> để bình luận!</p>
+<div class="spinner-grow text-primary spinning"></div>
+<ul class="list-group mt-2" id="comments"></ul>
+
 {% endif %}
+{% endif %}
+{% endblock %}
+
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/details.js') }}"></script>
+<script>
+    window.onload = function() {
+        loadComments({{ book.id }})
+    }
+</script>
 {% endblock %}

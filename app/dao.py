@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from flask_login import current_user
-from app.models import Category, Book, User, Order, OrderDetails, TypeofCreator, OrderType, OrderStatus, BookstoreRule
+from app.models import Category, Book, User, Order, OrderDetails, TypeofCreator, OrderType, OrderStatus, BookstoreRule, Comment
 from app import db, app
 from sqlalchemy import func
 import hashlib
@@ -176,6 +176,17 @@ def load_order_history(user_id):
 
 def load_order_details(od_id):
     return Order.query.get(od_id)
+
+
+def load_comments(book_id):
+    return Comment.query.filter(Comment.book_id.__eq__(book_id)).order_by(-Comment.id).all()
+
+
+def save_comment(book_id, content):
+    c = Comment(content=content, book_id=book_id, user=current_user)
+    db.session.add(c)
+    db.session.commit()
+    return c
 
 
 if __name__ == '__main__':
