@@ -22,7 +22,8 @@ function addComment(bookId) {
                   <div class="row">
                       <div class="col-md-12 col-sm-12">
                           <p>${c.content}</p>
-                          <small>Bình luận <span class="text-info">${moment(c.created_date).locale("vi").fromNow()}</span> bởi <span class="text-info">${c.user.name}</span></small>
+                          <small>Bình luận <span class="text-info">${moment(c.created_date).locale("vi").fromNow()}
+                          </span> bởi <span class="text-info">${c.user.name}</span></small>
                       </div>
                   </div>
               </li>
@@ -45,7 +46,8 @@ function loadComments(bookId) {
                   <div class="row">
                       <div class="col-md-12 col-sm-12">
                           <p>${c.content}</p>
-                          <small>Bình luận <span class="text-info">${moment(c.created_date).locale("vi").fromNow()}</span> bởi <span class="text-info">${c.user.name}</span></small>
+                          <small>Bình luận <span class="text-info">${moment(c.created_date).locale("vi").fromNow()}
+                          </span> bởi <span class="text-info">${c.user.name}</span></small>
                       </div>
                   </div>
               </li>

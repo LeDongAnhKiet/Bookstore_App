@@ -225,9 +225,9 @@ def order_details(order_id):
     return render_template('orders.html', p=p)
 
 
-def comments(books_id):
+def comments(book_id):
     data = []
-    for c in dao.load_comments(books_id):
+    for c in dao.load_comments(book_id):
         data.append({
             'id': c.id,
             'content': c.content,
@@ -240,9 +240,9 @@ def comments(books_id):
     return jsonify(data)
 
 
-def add_comment(books_id):
+def add_comment(book_id):
     try:
-        c = dao.save_comment(book_id=books_id, content=request.json['content'])
+        c = dao.save_comment(book_id=book_id, content=request.json['content'])
     except:
         return jsonify({'status': 500})
     else:

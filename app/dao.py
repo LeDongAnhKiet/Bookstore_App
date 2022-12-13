@@ -1,7 +1,7 @@
 from datetime import datetime
-
 from flask_login import current_user
-from app.models import Category, Book, User, Order, OrderDetails, TypeofCreator, OrderType, OrderStatus, BookstoreRule, Comment
+from app.models import Category, Book, User, Order, OrderDetails, \
+    TypeofCreator, OrderType, OrderStatus, BookstoreRule, Comment
 from app import db, app
 from sqlalchemy import func
 import hashlib
@@ -191,7 +191,6 @@ def save_comment(book_id, content):
 
 if __name__ == '__main__':
     from app import app
-
     with app.app_context():
         print(stats_revenue_by_cate())
         print(stats_frequency_by_book())

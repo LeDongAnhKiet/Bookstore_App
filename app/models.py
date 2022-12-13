@@ -1,5 +1,4 @@
 import enum
-
 from sqlalchemy import Text, Column, Integer, String, Float, ForeignKey, Enum, DateTime, Boolean
 from sqlalchemy.orm import relationship, backref
 from app import db, app
