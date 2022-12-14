@@ -17,7 +17,7 @@ class AuthenticatedModeView(ModelView):
 
 class AuthenticatedView(BaseView):
     def is_accessible(self):
-        return current_user.is_authenticated
+        return current_user.is_authenticated and current_user.user_role == UserRole.ADMIN
 
 
 class CKTextAreaWidget(TextArea):
@@ -94,7 +94,7 @@ class StatsView(AuthenticatedView):
         return self.render('admin/stats.html', stats1=stats1, stats2=stats2)
 
 
-class LogoutView(AuthenticatedView):
+class LogoutView(BaseView):
     @expose('/')
     def index(self):
         logout_user()
