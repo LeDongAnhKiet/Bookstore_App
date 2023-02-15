@@ -19,8 +19,12 @@
                 </div>
             </div>
             <div class="d-grid gap-2 mb-3 mx-5">
-                <a href="javascript:;" onclick="addToCart({{b.id}}, '{{b.name}}', {{b.price}})" class="btn btn-warning">Đặt
-                    hàng</a>
+<!--                <a href="javascript:;" onclick="addToCart({{b.id}}, '{{b.name}}', {{b.price}})" class="btn btn-warning">Đặt-->
+<!--                    hàng</a>-->
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#AddToCartModal"
+                href="javascript:;" onclick="addToCart({{b.id}}, '{{b.name}}', {{b.price}})">
+                    Đặt hàng
+                </button>
             </div>
         </div>
     </div>

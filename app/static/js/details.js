@@ -53,8 +53,7 @@ function loadComments(bookId) {
               </li>
             `
         })
-
-        let d = document.getElementById("comments")
-        d.innerHTML = h;
+                              let d = document.getElementById("comments")
+               d.innerHTML = h;
     })
 }
