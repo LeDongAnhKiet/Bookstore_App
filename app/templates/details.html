@@ -63,8 +63,12 @@
 
             <div class="d-flex py-5">
                 <div class="block me-2">
+                                        <input value="1" type="number" id="numberToCart" class="form-control" min="1"/>
                     <button type="button" class="btn btn-info" data-bs-toggle="modal"
                             data-bs-target="#AddToCartModal"
+                            {% if book.quantity <= 0 %}
+                            disabled
+                            {% endif %}
                             href="javascript:;" onclick="addToCart({{ book.id }}, '{{ book.name }}', {{ book.price }})">
                         <i class="fa-solid fa-cart-plus"></i> Đặt hàng
                     </button>
@@ -114,8 +118,6 @@
     window.onload = function() {
         loadComments({{ book.id }})
     }
-
-
 </script>
 {% endblock %}
 {% endif %}

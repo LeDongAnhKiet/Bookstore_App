@@ -101,6 +101,7 @@ def add_to_cart():
     id = str(data['id'])
     name = data['name']
     price = data['price']
+    quantity = data['quantity']
 
     if id in cart:
         cart[id]['quantity'] += 1
@@ -109,7 +110,7 @@ def add_to_cart():
             "id": id,
             "name": name,
             "price": price,
-            "quantity": 1
+            "quantity": quantity
         }
 
     session[key] = cart

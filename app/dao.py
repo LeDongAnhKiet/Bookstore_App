@@ -105,6 +105,8 @@ def make_payment(cart):
         r = Order(user=current_user, type=OrderType.ThanhToan, date=datetime.now(), status=OrderStatus.Success)
         db.session.add(r)
         for c in cart.values():
+            b = Book.query.get(c['id'])
+            b.quantity -= c['quantity']
             d = OrderDetails(quantity=c['quantity'], price=c['price'], order=r, book_id=c['id'])
             db.session.add(d)
         try:
@@ -171,7 +173,7 @@ def load_comments(book_id):
 
 
 def save_comment(book_id, content):
-    c = Comment(content=content, book_id=book_id, user=current_user)
+    c = Comment(content=content, book_id=book_id, created_date=datetime.now(), user=current_user)
     db.session.add(c)
     db.session.commit()
     return c

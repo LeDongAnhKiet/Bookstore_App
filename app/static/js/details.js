@@ -3,36 +3,46 @@ function spinner(status="block") {
     for (let i = 0; i < s.length; i++)
         s[i].style.display = status
 }
+
+function isEmpty(value){
+    return value === null || typeof(value) === 'undefined' || value === ''
+}
+
 function addComment(bookId) {
+    let cmt = document.getElementById("comment-content")
+    if(!isEmpty(cmt.value))
+    {
     spinner()
-    fetch(`/api/books/${bookId}/comments`, {
-        method: "post",
-        body: JSON.stringify({
-            "content": document.getElementById("comment-content").value
-        }),
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }).then((res) => res.json()).then((data) => {
-        spinner("none")
-       if (data.status === 204) {
-            let c = data.comment
-            let h = `
-                <li class="list-group-item">
-                  <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                          <p>${c.content}</p>
-                          <small>Bình luận <span class="text-info">${moment(c.created_date).locale("vi").fromNow()}
-                          </span> bởi <span class="text-info">${c.user.name}</span></small>
+        fetch(`/api/books/${bookId}/comments`, {
+            method: "post",
+            body: JSON.stringify({
+                "content": cmt.value
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then((res) => res.json()).then((data) => {
+            spinner("none")
+           if (data.status === 204) {
+                let c = data.comment
+                let h = `
+                    <li class="list-group-item">
+                      <div class="row">
+                          <div class="col-md-12 col-sm-12">
+                              <p>${c.content}</p>
+                              <small>Bình luận <span class="text-info">${moment(c.created_date).locale("vi").fromNow()}
+                              </span> bởi <span class="text-info">${c.user.name}</span></small>
+                          </div>
                       </div>
-                  </div>
-              </li>
-            `
-            let d = document.getElementById("comments")
-            d.innerHTML = h + d.innerHTML;
-       } else
-            alert("Lỗi hệ thống!")
-    }) // js promise
+                  </li>
+                `
+                let d = document.getElementById("comments")
+                d.innerHTML = h + d.innerHTML;
+                cmt.value = ""
+           } else
+                alert("Lỗi hệ thống!")
+        })
+    }// js promise
 }
 function loadComments(bookId) {
     spinner()

@@ -1,20 +1,30 @@
+function isEmpty(value){
+    return value === null || typeof(value) === 'undefined' || value === ''
+}
+
+
 function addToCart(id, name, price) {
+
+    let a = document?.querySelector('#numberToCart')?.value
+    if (a === undefined)
+        a = 1
+    console.log(a)
     fetch('/api/cart', {
         method: "post",
         body: JSON.stringify({
             "id": id,
             "name": name,
-            "price": price
+            "price": price,
+            "quantity": parseInt(a)
         }),
         headers: {
             "Content-Type": "application/json"
         }
     }).then(res => res.json()).then((data) => {
-        console.info(data)
         let d = document.getElementsByClassName("cart-counter")
         for (let i = 0; i < d.length; i++)
             d[i].innerText = data.total_quantity
-    }) // promise
+    })
 }
 
 function updateCart(bookId, obj) {
