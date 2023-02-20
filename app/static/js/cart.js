@@ -2,12 +2,12 @@ function isEmpty(value){
     return value === null || typeof(value) === 'undefined' || value === ''
 }
 
-
 function addToCart(id, name, price) {
-
     let a = document?.querySelector('#numberToCart')?.value
-    if (a === undefined)
+    if (a === undefined || a < 1)
         a = 1
+    if (a > 10)
+        a = 10
     console.log(a)
     fetch('/api/cart', {
         method: "post",

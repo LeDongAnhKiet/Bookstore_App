@@ -3,12 +3,22 @@ var letter = document.getElementById("letter");
 var capital = document.getElementById("capital");
 var number = document.getElementById("number");
 var length = document.getElementById("length");
+var myInput2 = document.getElementById("confirm");
+var match = document.getElementById("match");
 
-myInput.onfocus = () => {
+myInput.onfocus = myInput2.onfocus = () => {
   document.getElementById("requirement-password-rule").style.display = "block";
 }
 
+myInput2.onfocus = () =>{
+    document.getElementById("requirement-password-rule").style.display = "block";
+}
+
 myInput.onblur = () => {
+  document.getElementById("requirement-password-rule").style.display = "none";
+}
+
+myInput2.onblur = () => {
   document.getElementById("requirement-password-rule").style.display = "none";
 }
 
@@ -51,4 +61,15 @@ myInput.onkeyup = () => {
     length.classList.remove("valid");
     length.classList.add("invalid");
   }
+}
+
+myInput2.onkeyup = () => {
+   if(myInput.value == myInput2.value){
+    match.classList.remove("invalid");
+    match.classList.add("valid");
+   }
+   else{
+   match.classList.remove("valid");
+   match.classList.add("invalid");
+   }
 }
