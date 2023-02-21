@@ -6,8 +6,6 @@ function addToCart(id, name, price) {
     let a = document?.querySelector('#numberToCart')?.value
     if (a === undefined || a < 1)
         a = 1
-    if (a > 10)
-        a = 10
     console.log(a)
     fetch('/api/cart', {
         method: "post",
@@ -86,7 +84,7 @@ function preorder() {
     }
 
 }
-// Lấy radio button đê chọn cách thanh toán
+
 function MakePayment() {
             var ele = document.getElementsByName('ordertype');
 

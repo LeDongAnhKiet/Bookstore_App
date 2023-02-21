@@ -164,6 +164,13 @@ def load_order_history(user_id):
     return my_order
 
 
+def isEnoughBook(id, quantity):
+    book = Book.query.get(id)
+    if quantity > book.quantity:
+        return False
+    return True
+
+
 def load_order_details(od_id):
     return Order.query.get(od_id)
 
@@ -181,8 +188,8 @@ def save_comment(book_id, content):
 
 if __name__ == '__main__':
     from app import app
+
     with app.app_context():
         print(stats_revenue_by_cate())
         print(stats_frequency_by_book())
         # print(count_book_by_cate())
-

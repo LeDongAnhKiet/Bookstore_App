@@ -65,7 +65,7 @@
                 <div class="block me-2">
                                         <input value="1" type="number" id="numberToCart" class="form-control" min="1" max="10"/>
                     <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                            data-bs-target="#AddToCartModal"
+                            data-bs-target="#AddToCartModal" id="AddToCart"
                             {% if book.quantity <= 0 %}
                             disabled
                             {% endif %}
@@ -118,6 +118,7 @@
     window.onload = function() {
         loadComments({{ book.id }})
     }
+
 </script>
 {% endblock %}
 {% endif %}

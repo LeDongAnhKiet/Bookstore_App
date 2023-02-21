@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect, session, jsonify
 from app import app, dao, utils
 from flask_login import login_user, logout_user, login_required, current_user
+
 from app.decorator import annonynous_user
 import cloudinary.uploader
 
@@ -96,7 +97,7 @@ def add_to_cart():
     data = request.json
 
     key = app.config['CART_KEY']
-    cart = session[key] if key in session else {}
+    cart = session.get(key, {})
 
     id = str(data['id'])
     name = data['name']
@@ -104,14 +105,17 @@ def add_to_cart():
     quantity = data['quantity']
 
     if id in cart:
-        cart[id]['quantity'] += 1
+        rs = cart[id]['quantity'] + quantity
+        if dao.isEnoughBook(id, rs):
+            cart[id]['quantity'] = rs
     else:
-        cart[id] = {
-            "id": id,
-            "name": name,
-            "price": price,
-            "quantity": quantity
-        }
+        if dao.isEnoughBook(id, quantity):
+            cart[id] = {
+                "id": id,
+                "name": name,
+                "price": price,
+                "quantity": quantity
+            }
 
     session[key] = cart
 
