@@ -127,11 +127,12 @@ def update_cart(book_id):
 
     cart = session.get(key)
     if cart and book_id in cart:
-        cart[book_id]['quantity'] = int(request.json['quantity'])
-
-    session[key] = cart
-
-    return jsonify(utils.cart_stats(cart))
+        if dao.isEnoughBook(book_id, int(request.json['quantity'])):
+            cart[book_id]['quantity'] = int(request.json['quantity'])
+            session[key] = cart
+            return jsonify(utils.cart_stats(cart))
+        else:
+            return
 
 
 def delete_cart(book_id):
