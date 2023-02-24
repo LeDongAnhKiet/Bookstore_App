@@ -8,5 +8,5 @@ def cart_stats(cart):
 
     return {
         'total_amount': total_amount,
-        'total_quantity': total_quantity
+        'total_quantity': total_quantity,
     }

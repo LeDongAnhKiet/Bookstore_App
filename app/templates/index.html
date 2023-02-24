@@ -9,7 +9,7 @@
 <div class="row row-top row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
     {% for b in books.items %}
     <div class="col">
-        <div class="card h-100 shadow-sm mx-3 my-2" id="book{{b.id}}" value="{{ b.quantity }}">
+        <div class="card h-100 shadow-sm mx-3 my-2">
             <a href="/books/{{b.id}}" class="mt-2">
                 <img src="{{ b.image }}" class="card-img-top" alt="{{ b.name }}"/></a>
             <div class="card-body">
@@ -23,6 +23,7 @@
             <div class="d-grid gap-2 mb-3 mx-5">
 <!--                <a href="javascript:;" onclick="addToCart({{b.id}}, '{{b.name}}', {{b.price}})" class="btn btn-warning">Đặt-->
 <!--                    hàng</a>-->
+                <div style="display:none" id="book{{b.id}}" >{{b.quantity}}</div>
                 <button type="button" class="btn btn-warning"
                 href="javascript:;" onclick="addToCart({{b.id}}, '{{b.name}}', {{b.price}})">
                     Đặt hàng

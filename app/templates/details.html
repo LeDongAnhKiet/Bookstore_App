@@ -19,6 +19,7 @@
                 Thể loại: <a href="/?category_id={{ book.category.id }}" class="link-primary">{{ book.category.name
                 }}</a>
             </div>
+            <div style="display:none" id="book{{book.id}}" >{{book.quantity}}</div>
             <div class="d-flex text-bold my-1">
                 {% if tacgia %}
                 Tác giả:

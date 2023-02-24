@@ -6,9 +6,10 @@ function addToCart(id, name, price) {
     let a = document?.querySelector('#numberToCart')?.value
     if (a === undefined || a < 1)
         a = 1
+    let cartQuantity = document.querySelector('#cart-quantity').innerText
     let book = document.querySelector(`#book${id}`)
-//    console.log(book.getAttribute('value'))
-//    console.log(cart)
+//  console.log(book.getAttribute('value'))
+//      console.log(cartQuantity)
     fetch('/api/cart', {
         method: "post",
         body: JSON.stringify({
@@ -21,9 +22,17 @@ function addToCart(id, name, price) {
             "Content-Type": "application/json"
         }
     }).then(res => res.json()).then((data) => {
+//        console.log(book.innerText)
+//        console.log(cartQuantity)
+        if(data.total_quantity == cartQuantity)
+        {
+            alert(`Số lượng ${parseInt(book.innerText) + parseInt(a)} không có sẵn`)
+        }
+        else{
         let d = document.getElementsByClassName("cart-counter")
         for (let i = 0; i < d.length; i++)
             d[i].innerText = data.total_quantity
+        }
     })
 }
 
@@ -84,6 +93,10 @@ function pay() {
         fetch("/pay").then(res => res.json()).then(data => {
             if (data.status === 200)
                 location.reload()
+            else if(data.status===500)
+            {
+                location.reload()
+            }
         })
     }
 

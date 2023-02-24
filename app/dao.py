@@ -95,8 +95,13 @@ def add_order(cart):
         r = Order(user=current_user, type=OrderType.DatHang, date=datetime.now(), status=OrderStatus.Waiting)
         db.session.add(r)
         for c in cart.values():
-            d = OrderDetails(quantity=c['quantity'], price=c['price'], order=r, book_id=c['id'])
-            db.session.add(d)
+            b = Book.query.get(c['id'])
+            if b.quantity >= c['quantity']:
+                b.quantity -= c['quantity']
+                d = OrderDetails(quantity=c['quantity'], price=c['price'], order=r, book_id=c['id'])
+                db.session.add(d)
+            else:
+                return False
         try:
             db.session.commit()
         except:
@@ -111,9 +116,12 @@ def make_payment(cart):
         db.session.add(r)
         for c in cart.values():
             b = Book.query.get(c['id'])
-            b.quantity -= c['quantity']
-            d = OrderDetails(quantity=c['quantity'], price=c['price'], order=r, book_id=c['id'])
-            db.session.add(d)
+            if b.quantity >= c['quantity']:
+                b.quantity -= c['quantity']
+                d = OrderDetails(quantity=c['quantity'], price=c['price'], order=r, book_id=c['id'])
+                db.session.add(d)
+            else:
+                return False
         try:
             db.session.commit()
         except:
