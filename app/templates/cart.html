@@ -19,8 +19,8 @@
         <td>{{ c.name }}</td>
         <td>{{ "{:,.0f}".format(c.price) }} VNĐ</td>
         <td>
-            <input type="number" min="0" onblur="updateCart({{ c.id }}, this)" value="{{ c.quantity }}"
-                   class="form-control"/>
+            <input type="number" min="1" onblur="updateCart({{ c.id }}, this)" value="{{ c.quantity }}"
+                  max="{{ c.max }}" class="form-control"/>
         </td>
         <td>
             <input type="button" value="Xóa" onclick="deleteCart({{ c.id }})" class="btn btn-danger"/>

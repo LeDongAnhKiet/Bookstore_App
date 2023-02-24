@@ -6,7 +6,9 @@ function addToCart(id, name, price) {
     let a = document?.querySelector('#numberToCart')?.value
     if (a === undefined || a < 1)
         a = 1
-    console.log(a)
+    let book = document.querySelector(`#book${id}`)
+//    console.log(book.getAttribute('value'))
+//    console.log(cart)
     fetch('/api/cart', {
         method: "post",
         body: JSON.stringify({
@@ -26,23 +28,35 @@ function addToCart(id, name, price) {
 }
 
 function updateCart(bookId, obj) {
-    fetch(`/api/cart/${bookId}`, {
-        method: "put",
-        body: JSON.stringify({
-            "quantity": obj.value
-        }),
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }).then(res => res.json()).then((data) => {
-        let d = document.getElementsByClassName("cart-counter")
-        for (let i = 0; i < d.length; i++)
-            d[i].innerText = data.total_quantity
+    let v = document.querySelector(`#cart${bookId} input[type=number]`)
+    if (v.value > v.max){
+        alert(`Số lượng ${v.value} không có sẵn`)
+        v.value = v.max
+    }
+    else if(v.value < v.min){
+        alert(`Số lượng ${v.value} không có sẵn`)
+        v.value = v.min
+    }
+    else
+    {
+        fetch(`/api/cart/${bookId}`, {
+            method: "put",
+            body: JSON.stringify({
+                "quantity": obj.value
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(res => res.json()).then((data) => {
+            let d = document.getElementsByClassName("cart-counter")
+            for (let i = 0; i < d.length; i++)
+                d[i].innerText = data.total_quantity
+            let a = document.getElementsByClassName("cart-amount")
+            for (let i = 0; i < a.length; i++)
+                a[i].innerText = data.total_amount.toLocaleString("en-US")
 
-        let a = document.getElementsByClassName("cart-amount")
-        for (let i = 0; i < a.length; i++)
-            a[i].innerText = data.total_amount.toLocaleString("en-US")
-    }).catch(err => console.error(err)) // promise
+        }).catch(err => console.error(err))
+    }
 }
 
 function deleteCart(bookId) {

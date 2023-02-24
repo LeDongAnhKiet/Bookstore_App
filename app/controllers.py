@@ -114,7 +114,8 @@ def add_to_cart():
                 "id": id,
                 "name": name,
                 "price": price,
-                "quantity": quantity
+                "quantity": quantity,
+                "max": dao.get_quantity(id)
             }
 
     session[key] = cart
@@ -129,10 +130,8 @@ def update_cart(book_id):
     if cart and book_id in cart:
         if dao.isEnoughBook(book_id, int(request.json['quantity'])):
             cart[book_id]['quantity'] = int(request.json['quantity'])
-            session[key] = cart
-            return jsonify(utils.cart_stats(cart))
-        else:
-            return
+    session[key] = cart
+    return jsonify(utils.cart_stats(cart))
 
 
 def delete_cart(book_id):

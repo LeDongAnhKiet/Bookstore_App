@@ -35,6 +35,11 @@ def get_book_by_id(book_id):
     return Book.query.get(book_id)
 
 
+def get_quantity(book_id):
+    b = Book.query.get(book_id)
+    return b.quantity
+
+
 def load_book_has_same_cate(book_id):
     b = Book.query.get(book_id)
     # return Book.query.join(Category, Book.category_id==Category.id)\
