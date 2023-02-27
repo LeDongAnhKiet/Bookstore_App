@@ -54,6 +54,7 @@ def login_my_user():
             n = request.args.get('next')
             return redirect(n if n else '/')
 
+
     return render_template('login.html')
 
 

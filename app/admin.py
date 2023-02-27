@@ -1,7 +1,7 @@
 from wtforms.validators import InputRequired, NumberRange
 
 from app import db, app, dao
-from app.models import Category, Book, UserRole, RestockDetails, GoodsRestock, BookstoreRule
+from app.models import Category, Book, UserRole, RestockDetails, GoodsRestock
 from flask_admin import Admin, BaseView, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask import redirect, request
@@ -33,13 +33,7 @@ class CKTextAreaField(TextAreaField):
     widget = CKTextAreaWidget()
 
 
-class BookstoreRuleView(AuthenticatedModeView):
-    column_list = ()
-    can_create = False
-    can_delete = False
-    column_descriptions = {
-        'name': "Thông tin"
-    }
+
 
 
 
@@ -113,6 +107,5 @@ admin.add_view(AuthenticatedModeView(Category, db.session, name='Danh mục'))
 admin.add_view(BookView(Book, db.session, name='Sách'))
 admin.add_view(RestockDetailsView(RestockDetails, db.session, name='Sách nhập'))
 admin.add_view(GoodsRestockView(GoodsRestock, db.session, name='phiếu nhập'))
-admin.add_view(BookstoreRuleView(BookstoreRule, db.session, name='Quy định'))
 admin.add_view(StatsView(name='Thống kê - báo cáo'))
 admin.add_view(LogoutView(name='Đăng xuất'))

@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask_login import current_user
 from app.models import Category, Book, User, Order, OrderDetails, \
-    TypeofCreator, OrderType, OrderStatus, BookstoreRule, Comment
+    TypeofCreator, OrderType, OrderStatus, Comment
 from app import db, app
 from sqlalchemy import func
 import hashlib
@@ -105,6 +105,7 @@ def add_order(cart):
         try:
             db.session.commit()
         except:
+            db.session.rollback()
             return False
         else:
             return True
@@ -125,6 +126,7 @@ def make_payment(cart):
         try:
             db.session.commit()
         except:
+            db.session.rollback()
             return False
         else:
             return True

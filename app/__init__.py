@@ -16,7 +16,7 @@ cloudinary.config(cloud_name='dmfr3gngl', api_key='119749293867732', api_secret=
 login = LoginManager(app=app)
 login.login_view = '/login'
 babel = Babel(app=app)
-
+login.session_protection = "strong"
 
 @babel.localeselector
 def load_locale():
