@@ -43,6 +43,7 @@ def login_admin():
 
 @annonynous_user
 def login_my_user():
+    message = ''
     if request.method.__eq__('POST'):
         username = request.form['username']
         password = request.form['password']
@@ -54,8 +55,7 @@ def login_my_user():
             n = request.args.get('next')
             return redirect(n if n else '/')
 
-
-    return render_template('login.html')
+    return render_template('login.html', message=message)
 
 
 @login_required
