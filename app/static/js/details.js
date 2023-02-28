@@ -42,7 +42,9 @@ function addComment(bookId) {
            } else
                 alert("Lỗi hệ thống!")
         })
-    }// js promise
+    }
+    else
+        alert("Comment trống")
 }
 function loadComments(bookId) {
     spinner()
