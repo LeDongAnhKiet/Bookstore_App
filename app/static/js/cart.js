@@ -32,6 +32,7 @@ function addToCart(id, name, price) {
         let d = document.getElementsByClassName("cart-counter")
         for (let i = 0; i < d.length; i++)
             d[i].innerText = data.total_quantity
+        
         }
     })
 }
